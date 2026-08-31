@@ -2,14 +2,14 @@
 <html lang="ff" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>𞤙𞤀𞤂𞤍𞤋𞤃𞤉𞤈𞤉 𞤊𞤓𞤂𞤊𞤓𞤂𞤁𞤉- Fulfulde Yearly Calendar</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -20,7 +20,6 @@
             --light-text: #6b778c;
             --border-radius: 16px;
 
-            /* ألوان الفصول الأربعة مع تدرجات زخارف SVG */
             --winter-light: #e0f7fa; --winter-dark: #00838f;
             --spring-light: #e8f5e9; --spring-dark: #2e7d32;
             --summer-light: #fff3e0; --summer-dark: #e65100;
@@ -33,14 +32,18 @@
             padding: 0; 
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
-            color-adjust: exact !important;
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'ADLaM Display', system-ui, -apple-system, sans-serif;
+            font-family: 'ADLaM Display', 'Cairo', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding: 20px 15px;
+            padding: 15px 10px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -48,36 +51,48 @@
 
         .main-container {
             width: 100%;
-            max-width: 1250px;
+            max-width: 1280px;
             transition: all 0.4s ease; 
         }
 
         .year-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color) 62%, var(--year-accent));
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color) 62%, var(--year-accent, #3126b4));
             color: white;
-            padding: 16px 24px;
+            padding: 16px;
             border-radius: var(--border-radius);
             margin-bottom: 20px;
             box-shadow: 0 12px 30px rgba(67, 97, 238, 0.25);
             position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             gap: 15px; 
+            z-index: 100;
         }
 
-        .year-header::before {
+        .header-shine-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header-shine-overlay::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0) 100%);
             transform: rotate(30deg);
             animation: shineEffect 5s infinite linear;
-            pointer-events: none;
-            z-index: 0;
+        }
+
+        @keyframes shineEffect {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            15%, 100% { transform: translateX(100%) rotate(30deg); }
         }
 
         .glassy-adlam-title {
@@ -85,19 +100,21 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding: 10px 24px;
+            padding: 10px 16px;
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 0 10px rgba(255,255,255,0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             position: relative;
             z-index: 1;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .adlam-shiny-text {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: bold;
             letter-spacing: 1px;
             background: linear-gradient(to right, #9cecfb, #65c7f7, #0052d4, #65c7f7, #9cecfb);
@@ -109,30 +126,29 @@
         }
 
         @keyframes shineTextEffect { to { background-position: 200% center; } }
-        @media (max-width: 600px) { .adlam-shiny-text { font-size: 1.1rem; } .glassy-adlam-title { padding: 8px 12px; } }
 
         .header-controls-row {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            display: flex;
             align-items: center;
+            justify-content: space-between;
             width: 100%;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        @keyframes shineEffect {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            15%, 100% { transform: translateX(100%) rotate(30deg); }
+        .header-controls-start, .header-controls-end { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
         }
-
-        .header-controls-start { display: flex; justify-content: flex-start; align-items: center; }
-        .header-controls-end { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
 
         .year-selector-wrapper {
             position: relative;
             z-index: 3000;
             cursor: pointer;
-            padding: 4px 16px;
+            padding: 2px 8px;
             border-radius: 14px;
             transition: background 0.3s;
             display: flex;
@@ -141,51 +157,38 @@
         .year-selector-wrapper:hover { background: rgba(255, 255, 255, 0.18); }
 
         .year-title {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: normal;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             margin: 0;
         }
-        .year-title::after { content: '▼'; font-size: 0.85rem; opacity: 0.85; margin-top: 4px; text-shadow: none; color: white;}
+        .year-title::after { content: '▼'; font-size: 0.75rem; opacity: 0.85; margin-top: 2px; color: white;}
 
         .year-dropdown {
             position: absolute;
-            top: calc(100% + 10px);
+            top: calc(100% + 8px);
             left: 50%;
-            right: auto;
             transform: translateX(-50%);
             margin: 0;
-            background: white;
+            background: #ffffff;
             color: var(--text-color);
-            border-radius: 14px;
-            box-shadow: 0 18px 40px rgba(0,0,0,0.25);
-            max-height: 300px;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            max-height: 280px;
             overflow-y: auto;
             display: none;
-            z-index: 10000;
-            width: 190px;
-            margin-top: 0;
-            border: 1px solid rgba(0,0,0,0.08);
+            z-index: 99999;
+            width: 200px;
+            border: 1px solid rgba(0,0,0,0.1);
         }
-        .year-dropdown.show { display: block; }
-        @media (max-width: 600px) {
-            .year-dropdown {
-                position: fixed;
-                top: 72px;
-                left: 50%;
-                right: auto;
-                transform: translateX(-50%);
-                width: 180px;
-                max-height: 55vh;
-                z-index: 10000;
-            }
-        }
+        .year-dropdown.show { display: block; animation: dropdownFade 0.2s ease-out; }
+
         .year-option {
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
             border-bottom: 1px solid #f0f4f8;
             transition: background 0.2s, color 0.2s;
@@ -197,23 +200,24 @@
             background: rgba(255, 255, 255, 0.22);
             border: 1px solid rgba(255, 255, 255, 0.35);
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: all 0.25s ease;
             backdrop-filter: blur(4px);
+            flex-shrink: 0;
         }
         .btn-circle:hover { background: rgba(255, 255, 255, 0.38); transform: scale(1.06); color: white; }
 
         .print-btn {
             border-radius: 30px !important;
-            padding: 8px 20px !important;
-            font-size: 1rem !important;
+            padding: 6px 16px !important;
+            font-size: 0.95rem !important;
             font-family: inherit !important;
             background: #ffffff !important;
             color: var(--primary-color) !important;
@@ -224,8 +228,8 @@
             align-items: center;
             gap: 6px;
             transition: all 0.25s ease !important;
+            white-space: nowrap;
         }
-        .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.18) !important; }
 
         .custom-country-dropdown { position: relative; display: inline-block; }
         
@@ -234,7 +238,7 @@
             border: 1px solid rgba(255, 255, 255, 0.45);
             color: #fff;
             border-radius: 12px;
-            padding: 6px 14px;
+            padding: 6px 12px;
             outline: none;
             cursor: pointer;
             font-weight: bold;
@@ -243,29 +247,25 @@
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+            gap: 6px;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
-        .country-btn:hover { background: rgba(255, 255, 255, 0.3); }
-        .country-btn .bi-chevron-down { font-size: 0.8rem; transition: transform 0.3s ease; }
-        .country-menu.show ~ .country-btn .bi-chevron-down { transform: rotate(180deg); }
 
         .country-menu {
             position: absolute;
-            top: 100%;
-            left: 0;
-            right: auto;
+            top: calc(100% + 8px);
+            right: 0;
             background: #fff;
-            min-width: 280px;
+            width: 280px;
+            max-width: 90vw;
             border-radius: 16px;
-            margin-top: 10px;
             display: none;
-            z-index: 2000;
-            border: 1px solid rgba(0,0,0,0.08);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            z-index: 99999;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.22);
             overflow: hidden;
             flex-direction: column;
-            transform-origin: top left;
         }
         
         .country-menu.show { 
@@ -274,16 +274,16 @@
         }
         
         @keyframes dropdownFade {
-            from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+            from { opacity: 0; transform: scale(0.95) translateY(-8px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .country-search-box {
-            padding: 12px 15px;
+            padding: 10px 12px;
             border-bottom: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: #f8fafc;
             position: sticky; 
             top: 0;
@@ -295,212 +295,229 @@
             background: transparent;
             width: 100%;
             color: var(--text-color);
-            font-size: 16px; 
+            font-size: 15px; 
             font-family: inherit;
         }
 
         .country-list {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
             position: relative;
         }
-        .country-list::-webkit-scrollbar { width: 6px; }
-        .country-list::-webkit-scrollbar-track { background: #f1f1f1; }
-        .country-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .country-list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
         .country-item {
-            padding: 12px 15px;
+            padding: 10px 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: var(--text-color);
             transition: background 0.2s;
             border-bottom: 1px solid #f8fafc;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
         }
         .country-item:hover { background: #f0fdfa; color: var(--primary-color); }
         .country-item.active { background: var(--primary-color); color: #fff; }
 
-        @media (max-width: 600px) {
-            .country-btn span.country-name-text { display: none; }
-            .country-menu { 
-                position: fixed; 
-                top: 0; 
-                bottom: 0; 
-                left: 0; 
-                right: 0; 
-                margin: auto; 
-                width: 90%; 
-                max-width: 350px; 
-                height: fit-content; 
-                max-height: 85vh; 
-                z-index: 9999; 
-                transform: none !important; 
-            }
-            .country-menu.show {
-                animation: mobileDropdownFade 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            }
-            .country-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9998; display: none; backdrop-filter: blur(3px); }
-            .country-menu-overlay.show { display: block; }
-        }
-
-        @keyframes mobileDropdownFade {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
         .year-badge {
             display: inline-flex; align-items: center; justify-content: center;
             direction: ltr !important; flex-direction: row !important;
-            min-width: 185px; height: 64px; padding: 5px 14px 5px 9px;
-            border-radius: 20px; 
+            padding: 4px 12px;
+            height: 52px;
+            border-radius: 18px; 
             background: #ffffff;
             border: 2px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 7px 18px rgba(0, 0, 0, .15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .12);
             transition: all 0.3s ease;
         }
 
-        .year-badge .country-flag { order: 1 !important; }
-        .year-badge .year-divider { order: 2 !important; }
-        .year-badge #yearText { order: 3 !important; }
-
         #yearText { 
             display: inline-flex; align-items: center; justify-content: center; 
-            min-width: 92px; font-size: 2.15rem; line-height: 1; font-weight: 900; 
-            letter-spacing: .03em; 
+            font-size: 1.8rem; line-height: 1; font-weight: 900; 
             color: var(--primary-color);
             white-space: nowrap; 
         }
         
         .year-divider { 
-            width: 2px; height: 36px; margin: 0 13px; 
+            width: 2px; height: 28px; margin: 0 10px; 
             background: var(--primary-color);
             opacity: 0.25; 
         }
         
         .country-flag { 
-            width: 47px; height: 47px; flex: 0 0 47px; display: flex; align-items: center; 
-            justify-content: center; border-radius: 14px; 
+            width: 38px; height: 38px; flex: 0 0 38px; display: flex; align-items: center; 
+            justify-content: center; border-radius: 10px; 
             background: #f4f7fb; 
-            border: 2.5px solid var(--primary-color);
+            border: 2px solid var(--primary-color);
             font-family: "Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif; 
-            font-size: 1.85rem; line-height: 1; filter: none; 
-        }
-
-        .year-badge:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.2); }
-
-        @media (max-width:600px) {
-            .year-badge { min-width: 154px; height: 53px; border-radius: 16px; padding: 4px 10px 4px 7px; }
-            #yearText { min-width: 75px; font-size: 1.75rem; }
-            .year-divider { height: 29px; margin: 0 9px; }
-            .country-flag { width: 39px; height: 39px; flex-basis: 39px; border-radius: 11px; font-size: 1.52rem; }
+            font-size: 1.5rem; line-height: 1; 
         }
 
         .holiday { background: #ffe0e0 !important; color: #b42318 !important; border: 1px solid #ef8f8f; font-weight: 800 !important; position: relative; }
-        .holiday::after { content: ""; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #d92d20; top: 2px; right: 2px; }
+        .holiday::after { content: ""; position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #d92d20; top: 2px; right: 2px; }
         
-        .holiday-legend { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 0 0 14px; font-size: .9rem; font-weight: bold; background: rgba(255,255,255,0.7); padding: 6px 16px; border-radius: 20px; width: fit-content; margin-left: auto; margin-right: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .holiday-legend i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; background: #ffe0e0; border: 1px solid #ef8f8f; }
+        .holiday-legend { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 0 auto 16px; font-size: .88rem; font-weight: bold; background: rgba(255,255,255,0.85); padding: 6px 16px; border-radius: 30px; width: fit-content; box-shadow: 0 2px 10px rgba(0,0,0,0.04); flex-wrap: wrap; }
+        .holiday-legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; background: #ffe0e0; border: 1px solid #ef8f8f; }
 
-        .holiday-modal { position: fixed; inset: 0; z-index: 5000; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.45); backdrop-filter: blur(4px); padding: 20px; }
+        .holiday-modal { position: fixed; inset: 0; z-index: 100000; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.45); backdrop-filter: blur(4px); padding: 15px; }
         .holiday-modal.show { display: flex; }
-        .holiday-modal-card { width: min(420px, 94vw); background: #fff; border-radius: 20px; padding: 26px 22px; box-shadow: 0 20px 60px rgba(0,0,0,.3); text-align: center; direction: rtl; border: 1px solid rgba(0,0,0,0.05); }
-        .holiday-modal-card h3 { margin: 0 0 12px; color: #b42318; font-weight: 800; }
-        .holiday-modal-card p { margin: 6px 0; color: #374151; font-weight: 700; font-size: 1.05rem; }
-        .holiday-modal-close { margin-top: 16px; border: 0; border-radius: 12px; padding: 9px 24px; cursor: pointer; background: #b42318; color: #fff; font-family: inherit; font-weight: 700; transition: background 0.2s, transform 0.2s; }
-        .holiday-modal-close:hover { background: #91180d; transform: scale(1.03); }
-        .holiday.clickable { cursor: pointer; }
+        .holiday-modal-card { width: min(400px, 92vw); background: #fff; border-radius: 20px; padding: 22px 18px; box-shadow: 0 20px 60px rgba(0,0,0,.3); text-align: center; direction: rtl; border: 1px solid rgba(0,0,0,0.05); }
+        .holiday-modal-card h3 { margin: 0 0 10px; color: #b42318; font-weight: 800; font-size: 1.25rem; }
+        .holiday-modal-card p { margin: 6px 0; color: #374151; font-weight: 700; font-size: 0.95rem; }
+        .holiday-modal-close { margin-top: 14px; border: 0; border-radius: 10px; padding: 8px 20px; cursor: pointer; background: #b42318; color: #fff; font-family: inherit; font-weight: 700; }
 
-        .months-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .month-card { border-radius: 16px; padding: 15px; border-top: 6px solid; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); display: flex; flex-direction: column; background-color: white; position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .month-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); }
+        /* الشريحة وشبكة الأشهر */
+        .months-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .month-card { border-radius: 16px; padding: 12px; border-top: 5px solid; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04); display: flex; flex-direction: column; background-color: white; position: relative; overflow: hidden; transition: transform 0.2s ease; }
 
         .season-winter { background-color: var(--winter-light); border-color: var(--winter-dark); }
         .season-spring { background-color: var(--spring-light); border-color: var(--spring-dark); }
         .season-summer { background-color: var(--summer-light); border-color: var(--summer-dark); }
         .season-autumn { background-color: var(--autumn-light); border-color: var(--autumn-dark); }
 
-        .month-card::before, .month-card::after { content: ""; position: absolute; pointer-events: none; z-index: 0; background-repeat: no-repeat; background-position: center; background-size: contain; }
-        .month-card::before { top: 1.5mm; left: 1.5mm; width: 11mm; height: 11mm; border-radius: 50%; opacity: 0.18; }
-        .month-card::after { right: 1.5mm; bottom: 1.5mm; width: 14mm; height: 10mm; opacity: 0.16; }
-
-        .season-winter::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%2300838f' stroke-width='6' stroke-linecap='round'%3E%3Cpath d='M50 8v84M8 50h84M20 20l60 60M80 20L20 80'/%3E%3Cpath d='M50 8l-8 12M50 8l8 12M50 92l-8-12M50 92l8-12M8 50l12-8M8 50l12 8M92 50l-12-8M92 50l-12 8M20 20l2 15M20 20l15 2M80 80l-2-15M80 80l-15-2M80 20l-15 2M80 20l-2 15M20 80l15-2M20 80l2-15'/%3E%3C/g%3E%3C/svg%3E"); }
-        .season-spring::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%232e7d32' stroke-width='5'%3E%3Cpath d='M50 92C48 70 52 48 62 25'/%3E%3Cpath d='M51 67c-20-2-29-13-31-27 18-2 30 6 31 27z' fill='%232e7d32' fill-opacity='.35'/%3E%3Cpath d='M57 52c18-2 27-11 30-25-17-2-28 5-30 25z' fill='%232e7d32' fill-opacity='.3'/%3E%3Ccircle cx='64' cy='19' r='10' fill='%232e7d32' fill-opacity='.25'/%3E%3Ccircle cx='64' cy='19' r='4' fill='%232e7d32'/%3E%3C/g%3E%3C/svg%3E"); }
-        .season-summer::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23e65100' stroke-width='6' stroke-linecap='round'%3E%3Ccircle cx='50' cy='50' r='22' fill='%23e65100' fill-opacity='.32'/%3E%3Cpath d='M50 8v18M50 74v18M8 50h18M74 50h18M20 20l13 13M67 67l13 13M80 20L67 33M33 67L20 80'/%3E%3C/g%3E%3C/svg%3E"); }
-        .season-autumn::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%234e342e'%3E%3Cpath d='M24 20c20 1 31 11 28 30-18 3-29-8-28-30z' fill-opacity='.5'/%3E%3Cpath d='M66 14c18 5 25 17 16 32-16-2-22-13-16-32z' fill-opacity='.4'/%3E%3Cpath d='M50 54c19 2 27 13 20 28-15 0-23-10-20-28z' fill-opacity='.5'/%3E%3Cpath d='M27 57c12 4 17 12 11 22-11-1-16-9-11-22z' fill-opacity='.35'/%3E%3C/g%3E%3C/svg%3E"); }
-        
-        .season-winter::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 100'%3E%3Cpath d='M10 80Q45 50 75 78T135 65' fill='none' stroke='%2300838f' stroke-width='5' opacity='.7'/%3E%3Ccircle cx='35' cy='35' r='4' fill='%2300838f'/%3E%3Ccircle cx='95' cy='25' r='3' fill='%2300838f'/%3E%3C/svg%3E"); }
-        .season-spring::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 100'%3E%3Cpath d='M12 85Q35 55 62 76T128 58' fill='none' stroke='%232e7d32' stroke-width='5'/%3E%3Ccircle cx='45' cy='55' r='7' fill='%232e7d32' fill-opacity='.45'/%3E%3Ccircle cx='45' cy='55' r='3' fill='%232e7d32'/%3E%3C/svg%3E"); }
-        .season-summer::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 100'%3E%3Cpath d='M5 82h130' stroke='%23e65100' stroke-width='5' opacity='.6'/%3E%3Cpath d='M20 82q20-35 40 0M65 82q20-45 40 0' fill='none' stroke='%23e65100' stroke-width='4' opacity='.55'/%3E%3C/svg%3E"); }
-        .season-autumn::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 100'%3E%3Cpath d='M10 85c25-35 48-40 75-20 17 12 31 7 45-5' fill='none' stroke='%234e342e' stroke-width='5' opacity='.6'/%3E%3Cpath d='M32 30l-7 18M85 25l-5 18M110 48l-6 15' stroke='%234e342e' stroke-width='4'/%3E%3C/svg%3E"); }
-
-        .month-card { isolation: isolate; }
-        .season-winter { box-shadow: inset 0 0 0 0.5mm rgba(0,131,143,.12), 0 1mm 3mm rgba(0,131,143,.08); }
-        .season-spring { box-shadow: inset 0 0 0 0.5mm rgba(46,125,50,.12), 0 1mm 3mm rgba(46,125,50,.08); }
-        .season-summer { box-shadow: inset 0 0 0 0.5mm rgba(230,81,0,.12), 0 1mm 3mm rgba(230,81,0,.08); }
-        .season-autumn { box-shadow: inset 0 0 0 0.5mm rgba(78,52,46,.12), 0 1mm 3mm rgba(78,52,46,.08); }
-
-        .season-ornament { position: absolute; inset-inline-start: 2mm; top: 1.5mm; width: 19mm; height: 12mm; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0; }
-        .season-svg { width: 100%; height: 100%; overflow: visible; }
+        .season-ornament { position: absolute; inset-inline-start: 4px; top: 4px; width: 50px; height: 35px; pointer-events: none; z-index: 0; opacity: 0.8; }
+        .season-svg { width: 100%; height: 100%; }
         .winter-svg { color: #0891b2; }
         .spring-svg { color: #16a34a; }
         .summer-svg { color: #f59e0b; }
         .autumn-svg { color: #c2410c; }
 
-        .season-winter .month-title { background: linear-gradient(90deg, rgba(255,255,255,.86), rgba(224,247,250,.92)); color: var(--winter-dark); border-bottom-color: var(--winter-dark); }
-        .season-spring .month-title { background: linear-gradient(90deg, rgba(255,255,255,.86), rgba(240,253,244,.92)); color: var(--spring-dark); border-bottom-color: var(--spring-dark); }
-        .season-summer .month-title { background: linear-gradient(90deg, rgba(255,255,255,.86), rgba(255,247,237,.92)); color: var(--summer-dark); border-bottom-color: var(--summer-dark); }
-        .season-autumn .month-title { background: linear-gradient(90deg, rgba(255,255,255,.86), rgba(255,247,237,.88)); color: var(--autumn-dark); border-bottom-color: var(--autumn-dark); }
+        .month-header-wrapper {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 6px 4px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 10px;
+            border-bottom: 2px dashed rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
 
-        .season-winter { background-image: linear-gradient(135deg, rgba(8,145,178,.055), rgba(255,255,255,.20)); }
-        .season-spring { background-image: linear-gradient(135deg, rgba(22,163,74,.055), rgba(255,255,255,.20)); }
-        .season-summer { background-image: linear-gradient(135deg, rgba(245,158,11,.07), rgba(255,255,255,.20)); }
-        .season-autumn { background-image: linear-gradient(135deg, rgba(194,65,12,.055), rgba(255,255,255,.20)); }
+        .month-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--text-color);
+        }
 
-        .month-title { font-size: 1.3rem; text-align: center; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px dashed; font-weight: bold; background: rgba(255,255,255,0.75); border-radius: 8px; position: relative; z-index: 2; }
-        .days-of-week { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; color: var(--text-color); font-size: 1rem; margin-bottom: 8px; font-weight: bold; background: rgba(255,255,255,0.55); padding: 5px 0; border-radius: 6px; position: relative; z-index: 2;}
-        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; flex: 1; position: relative; z-index: 2;}
+        .hijri-month-badge {
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #525252;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 3px;
+        }
+
+        .days-of-week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            text-align: center;
+            margin-bottom: 6px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 4px;
+            border-radius: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .day-name-chip {
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 2px 0;
+            border-radius: 6px;
+            color: #334155;
+            user-select: none;
+        }
+
+        .day-name-chip.friday-chip { color: #059669; background: rgba(16, 185, 129, 0.12); }
+        .day-name-chip.weekend-chip { color: #d97706; }
+
+        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; flex: 1; position: relative; z-index: 2;}
         
-        .day-cell { aspect-ratio: 1; display: flex; justify-content: center; align-items: center; font-size: 1.35rem; font-weight: 700; border-radius: 8px; background: rgba(255, 255, 255, 0.65); transition: background 0.15s; }
-        .day-cell.empty { color: transparent; pointer-events: none; background: transparent; }
-        .day-cell.today { background-color: var(--primary-color) !important; color: white !important; font-weight: bold; box-shadow: 0 3px 10px rgba(0,0,0,0.22); }
+        .day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.75);
+            transition: all 0.15s ease;
+            padding: 1px;
+        }
 
-        @media (max-width: 992px) { .months-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .months-grid { grid-template-columns: 1fr; } .print-btn { display: none !important; } .day-cell { font-size: 1.15rem; } }
+        .day-cell .day-adlam { font-size: 1.15rem; font-weight: 800; line-height: 1; }
+        .day-cell .day-hijri { font-family: 'Cairo', sans-serif; font-size: 0.65rem; font-weight: 700; line-height: 1; margin-top: 2px; color: #64748b; }
+
+        .day-cell.empty { color: transparent; pointer-events: none; background: transparent; }
+        .day-cell.today { background-color: var(--primary-color) !important; color: white !important; font-weight: bold; }
+        .day-cell.today .day-hijri { color: rgba(255,255,255,0.9) !important; }
+
+        /* ===== التجاوب للشاشات المختلفة ===== */
+        @media (max-width: 992px) { 
+            .months-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } 
+        }
+
+        @media (max-width: 768px) {
+            .glassy-adlam-title { justify-content: center; text-align: center; }
+            .header-controls-row {
+                flex-direction: column;
+                justify-content: center;
+                gap: 12px;
+            }
+            .header-controls-start, .header-controls-end {
+                width: 100%;
+                justify-content: center;
+            }
+            .country-menu {
+                right: 50%;
+                transform: translateX(50%);
+            }
+            .country-menu.show {
+                transform: translateX(50%) translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) { 
+            body { padding: 10px 6px; }
+            .months-grid { grid-template-columns: 1fr; gap: 12px; } 
+            .print-btn { display: none !important; } 
+            .adlam-shiny-text { font-size: 1.15rem; }
+            .year-badge { height: 46px; padding: 2px 10px; }
+            #yearText { font-size: 1.5rem; }
+            .country-flag { width: 32px; height: 32px; font-size: 1.3rem; }
+            .day-cell .day-adlam { font-size: 1.05rem; } 
+            .day-cell .day-hijri { font-size: 0.6rem; } 
+        }
 
         /* ===== إعدادات الطباعة ===== */
         @media print {
             @page { size: 210mm 297mm; margin: 4mm; }
             html, body { background: #fff !important; margin: 0 !important; padding: 0 !important; width: 202mm !important; height: 289mm !important; overflow: hidden !important; }
-            body { display: block !important; min-height: 0 !important; }
-            .main-container { 
-                background: #fff !important; 
-                width: 202mm !important; height: 289mm !important; max-width: none !important; max-height: none !important; margin: 0 !important; padding: 2mm !important; border: none !important; box-sizing: border-box !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; page-break-after: avoid !important; page-break-inside: avoid !important; break-after: avoid-page !important; 
-            }
-            .year-header { 
-                flex: 0 0 auto !important; display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; 
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; 
-                border-radius: 4mm !important; padding: 3mm 4mm !important; margin: 0 0 2.5mm 0 !important; gap: 2mm !important; box-shadow: inset 0 0 0 0.5mm rgba(255,255,255,0.4) !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
-            }
-            .glassy-adlam-title { background: rgba(255, 255, 255, 0.85) !important; border: 0.3mm solid rgba(255, 255, 255, 0.9) !important; box-shadow: none !important; padding: 1.5mm 4mm !important; width: 95% !important; }
-            .adlam-shiny-text { background: none !important; color: #0d47a1 !important; -webkit-text-fill-color: #0d47a1 !important; text-shadow: none !important; animation: none !important; font-size: 5mm !important; }
+            body { display: block !important; }
+            .main-container { background: #fff !important; width: 202mm !important; height: 289mm !important; margin: 0 !important; padding: 2mm !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
+            .year-header { flex: 0 0 auto !important; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; padding: 3mm !important; margin-bottom: 2mm !important; }
+            .glassy-adlam-title { background: #fff !important; padding: 1mm 4mm !important; }
+            .adlam-shiny-text { color: #0d47a1 !important; -webkit-text-fill-color: #0d47a1 !important; font-size: 4.5mm !important; }
             .header-controls-row { display: flex !important; justify-content: center !important; }
-            .year-badge { background: rgba(255, 255, 255, 0.9) !important; border: 0.3mm solid rgba(0, 0, 0, 0.2) !important; border-radius: 4mm !important; box-shadow: 0 1mm 2mm rgba(0,0,0,0.1) !important; padding: 1.5mm 4mm !important; display: inline-flex !important; align-items: center !important; flex-direction: row !important; }
-            #yearText { color: var(--primary-color) !important; font-size: 7mm !important; font-weight: 900 !important; }
-            .year-divider { background: var(--primary-color) !important; height: 6mm !important; margin: 0 3mm !important; opacity: 0.4 !important;}
-            .country-flag { background: #fff !important; border: 0.5mm solid var(--primary-color) !important; border-radius: 2mm !important; width: 8mm !important; height: 8mm !important; font-size: 5mm !important; display: flex !important; align-items: center !important; justify-content: center !important; }
-            .year-title { font-size: 5mm !important; line-height: 1 !important; margin: 0 !important; }
-            .year-title::after, .header-controls-start, .header-controls-end, .year-dropdown, .custom-country-dropdown, .country-menu-overlay, .holiday-legend, .holiday-modal, .year-header::before { display: none !important; }
-            .holiday { background: #ffe0e0 !important; color: #b42318 !important; border: 0.25mm solid #ef8f8f !important; }
-            .months-grid { flex: 1 1 auto !important; min-width: 0 !important; min-height: 0 !important; width: 100% !important; height: auto !important; display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; grid-template-rows: repeat(4, minmax(0, 1fr)) !important; gap: 1.2mm !important; overflow: hidden !important; }
-            .month-card { width: 100% !important; height: 100% !important; min-width: 0 !important; min-height: 0 !important; padding: 1mm !important; border-width: 0.4mm !important; border-radius: 1.5mm !important; box-shadow: none !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; break-inside: avoid !important; page-break-inside: avoid !important; }
-            .month-title { flex: 0 0 auto !important; font-size: 3.1mm !important; line-height: 1.05 !important; margin: 0 0 0.7mm 0 !important; padding: 0.7mm 0 !important; border-bottom-width: 0.3mm !important; border-radius: 1mm !important; }
-            .days-of-week { flex: 0 0 auto !important; font-size: 2.3mm !important; line-height: 1 !important; margin: 0 0 0.6mm 0 !important; padding: 0.7mm 0 !important; border-radius: 0.8mm !important; }
-            .days-grid { flex: 1 1 auto !important; min-width: 0 !important; min-height: 0 !important; width: 100% !important; height: auto !important; display: grid !important; grid-template-columns: repeat(7, minmax(0, 1fr)) !important; grid-template-rows: repeat(6, minmax(0, 1fr)) !important; gap: 0.45mm !important; }
-            .day-cell { width: 100% !important; height: 100% !important; min-width: 0 !important; min-height: 0 !important; aspect-ratio: auto !important; padding: 0 !important; font-size: 3.8mm !important; font-weight: bold !important; line-height: 1 !important; border-radius: 0.8mm !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+            .year-badge { background: #fff !important; padding: 1mm 3mm !important; height: 8mm !important; }
+            #yearText { color: var(--primary-color) !important; font-size: 6mm !important; }
+            .country-flag { width: 7mm !important; height: 7mm !important; font-size: 4.5mm !important; }
+            .btn-circle, .custom-country-dropdown, .print-btn, .holiday-legend, .holiday-modal, .header-shine-overlay { display: none !important; }
+            .months-grid { flex: 1 1 auto !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; grid-template-rows: repeat(4, 1fr) !important; gap: 1mm !important; }
+            .month-card { padding: 1mm !important; border-width: 0.4mm !important; }
+            .month-header-wrapper { margin-bottom: 0.5mm !important; padding: 0.5mm !important; }
+            .month-title { font-size: 3mm !important; }
+            .hijri-month-badge { font-size: 2mm !important; }
+            .days-of-week { font-size: 2mm !important; margin-bottom: 0.5mm !important; padding: 0.3mm !important; }
+            .days-grid { gap: 0.4mm !important; }
+            .day-cell .day-adlam { font-size: 3mm !important; }
+            .day-cell .day-hijri { font-size: 1.6mm !important; }
         }
     </style>
 </head>
@@ -508,6 +525,7 @@
 
     <div class="main-container">
         <header class="year-header">
+            <div class="header-shine-overlay"></div>
             
             <div class="glassy-adlam-title">
                 <div class="adlam-shiny-text">𞤏𞤋𞤐𞤁𞤉𞤐 𞤔𞤀𞤐𞤘𞤉𞤐  𞤀𞤁𞤂𞤢𞤃</div>
@@ -524,7 +542,7 @@
                 <div class="year-selector-wrapper" id="yearSelectorBtn">
                     <h1 class="year-title" id="yearDisplay">
                         <span class="year-badge" aria-label="السنة والدولة">
-                            <span id="countryFlag" class="country-flag" aria-label="𞤁𞤉𞥅𞤅𞤌𞤏𞤀𞤂 𞤂𞤉𞤒𞤁𞤋">🌍</span>
+                            <span id="countryFlag" class="country-flag" aria-label="علم الدولة">🌍</span>
                             <span class="year-divider" aria-hidden="true"></span>
                             <span id="yearText">السنة</span>
                         </span>
@@ -533,24 +551,21 @@
                 </div>
                 
                 <div class="header-controls-end">
-                    <div class="country-menu-overlay" id="countryOverlay"></div>
-
                     <div class="custom-country-dropdown" id="countryDropdownContainer">
-                        <button class="country-btn" id="countryBtn" title="𞤅𞤓𞤇𞤀𞤘𞤌𞤂 𞤂𞤉𞤒𞤁𞤋">
-                            <span id="headerCountryBadge" class="fs-5">🌍</span>
-                            <span id="headerCountryName" class="country-name-text">𞤅𞤓𞤇𞤀 𞤂𞤉𞤒𞤁𞤋</span>
+                        <button class="country-btn" id="countryBtn" title="اختيار الدولة">
+                            <span id="headerCountryBadge" class="fs-6">🌍</span>
+                            <span id="headerCountryName" class="country-name-text">اختيار الدولة</span>
                             <i class="bi bi-chevron-down ms-1"></i>
                         </button>
                         
                         <div class="country-menu" id="countryMenu">
                             <div class="country-search-box">
                                 <i class="bi bi-search text-muted"></i>
-                                <input type="text" id="countrySearch" placeholder="𞤏𞤋𞤍𞤚𞤌 𞤂𞤉𞤒𞤁𞤋..." autocomplete="off">
+                                <input type="text" id="countrySearch" placeholder="بحث عن دولة..." autocomplete="off">
                             </div>
-                            <div class="country-list" id="countryList">
-                            </div>
-                            <div id="noCountryResults" class="text-center text-muted p-3" style="display: none; font-size: 0.95rem; font-weight: bold;">
-                                𞤋𞤐𞤁𞤉 𞤂𞤉𞤒𞤁𞤋𞥅 𞤀𞤂𞤀𞥄 𞤍𞤌𞤐
+                            <div class="country-list" id="countryList"></div>
+                            <div id="noCountryResults" class="text-center text-muted p-3" style="display: none; font-size: 0.9rem; font-weight: bold;">
+                                لم يتم العثور على نتائج
                             </div>
                         </div>
                     </div>
@@ -574,7 +589,7 @@
 
         <div class="months-grid" id="monthsGrid"></div>
 
-        <div class="holiday-modal" id="holidayModal" role="dialog" aria-modal="true" aria-labelledby="holidayModalTitle">
+        <div class="holiday-modal" id="holidayModal" role="dialog" aria-modal="true">
             <div class="holiday-modal-card">
                 <h3 id="holidayModalTitle">المناسبة</h3>
                 <p id="holidayModalName"></p>
@@ -588,17 +603,30 @@
 
     <script>
         const adlamDigits = ['𞥐', '𞥑', '𞥒', '𞥓', '𞥔', '𞥕', '𞥖', '𞥗', '𞥘', '𞥙'];
+        const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+
         function convertToAdlam(num) {
-            return num.toString().split('').map(digit => adlamDigits[parseInt(digit)]).join('');
+            return num.toString().split('').map(digit => adlamDigits[parseInt(digit)] || digit).join('');
         }
 
-        // تم تحديث المصفوفة بالأسماء الجديدة
+        function convertToArabicDigits(num) {
+            return num.toString().replace(/\d/g, d => arabicDigits[d]);
+        }
+
         const monthNames = [
             "𞤅𞤭𞥅𞤤𞤮", "𞤕𞤮𞤤𞤼𞤮", "𞤐𞤄𞤮𞥅𞤴𞤮", "𞤅𞤫𞤯𞤼𞤮", "𞤁𞤵𞥅𞤶𞤮", "𞤑𞤮𞤪𞤧𞤮", 
             "𞤃𞤮𞤪𞤧𞤮", "𞤔𞤵𞤳𞤮", "𞤅𞤭𞤤𞤼𞤮", "𞤒𞤢𞤪𞤳𞤮", "𞤔𞤮𞤤𞤮", "𞤄𞤮𞤱𞤼𞤮"
         ];
 
-        const daysOfWeek = ["𞤁𞤫", "𞤀𞤢", "𞤃𞤦", "𞤐𞤶", "𞤐𞤢", "𞤃𞤱", "𞤖𞤮"];
+        const daysOfWeekInfo = [
+            { short: "𞤁𞤫", full: "𞤁𞤫𞤦𞤦𞤫", ar: "الأحد", isWeekend: true },
+            { short: "𞤀𞤢", full: "𞤀𞤼𞤭𞤲𞤭", ar: "الإثنين", isWeekend: false },
+            { short: "𞤃𞤦", full: "𞤃𞤢𞤦𞤦𞤢𞥄𞤪𞤫", ar: "الثلاثاء", isWeekend: false },
+            { short: "𞤐𞤶", full: "𞤐𞤶𞤫𞥅𤤤𞤢𞥄𞤪𞤫", ar: "الأربعاء", isWeekend: false },
+            { short: "𞤐𞤢", full: "𞤐𞤢𞥄𞤲𞤅𞤢𞥄𞤪𞤫", ar: "الخميس", isWeekend: false },
+            { short: "𞤃𞤱", full: "𞤃𞤢𞥄𞤱𞤲𞤁𞤫", ar: "الجمعة", isWeekend: true, isFriday: true },
+            { short: "𞤖𞤮", full: "𞤖𞤮𞥅𞤪𞤦𞤭𞤪𞥅𞤪𞤫", ar: "السبت", isWeekend: true }
+        ];
 
         const yearThemes = [
             { primary: '#2563eb', secondary: '#4f46e5', accent: '#06b6d4', bg: '#f4f8ff' },
@@ -608,11 +636,7 @@
             { primary: '#be185d', secondary: '#db2777', accent: '#f472b6', bg: '#fff1f7' },
             { primary: '#0369a1', secondary: '#0284c7', accent: '#38bdf8', bg: '#f0f9ff' },
             { primary: '#15803d', secondary: '#16a34a', accent: '#84cc16', bg: '#f0fdf4' },
-            { primary: '#4338ca', secondary: '#6366f1', accent: '#818cf8', bg: '#eef2ff' },
-            { primary: '#9f1239', secondary: '#e11d48', accent: '#fb7185', bg: '#fff1f2' },
-            { primary: '#115e59', secondary: '#0f766e', accent: '#2dd4bf', bg: '#f0fdfa' },
-            { primary: '#92400e', secondary: '#b45309', accent: '#fbbf24', bg: '#fffbeb' },
-            { primary: '#6d28d9', secondary: '#7e22ce', accent: '#c084fc', bg: '#faf5ff' }
+            { primary: '#4338ca', secondary: '#6366f1', accent: '#818cf8', bg: '#eef2ff' }
         ];
 
         let currentYear = new Date().getFullYear();
@@ -622,42 +646,63 @@
         let holidays = new Map();
         let loadedCountriesData = [];
 
-        const browserLocale = navigator.language || navigator.userLanguage || 'ar';
+        const browserLocale = navigator.language || 'ar';
         let regionNames;
         try {
             regionNames = new Intl.DisplayNames([browserLocale], { type: 'region' });
         } catch(e) {
-            regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+            regionNames = { of: (code) => code };
         }
 
-        const countryLocales = {
-            CI:'fr-FR', SN:'fr-FR', ML:'fr-FR', BF:'fr-FR', GN:'fr-FR',
-            MR:'ar-MR', NE:'fr-FR', TD:'fr-FR', CM:'fr-FR',
-            DZ:'ar-DZ', MA:'ar-MA', TN:'ar-TN', EG:'ar-EG', SA:'ar-SA',
-            AE:'ar-AE', QA:'ar-QA', TR:'tr-TR', FR:'fr-FR', GB:'en-GB',
-            DE:'de-DE', IT:'it-IT', ES:'es-ES', US:'en-US', CA:'en-CA',
-            BE:'fr-BE', CH:'de-CH', PT:'pt-PT', BR:'pt-BR', IN:'en-IN',
-            PK:'ur-PK', ID:'id-ID', MY:'ms-MY', AU:'en-AU', JP:'ja-JP',
-            CN:'zh-CN', ZA:'en-ZA', NG:'en-NG', GH:'en-GH', GM:'en-GM'
-        };
+        const fallbackCountries = ['CI','SN','ML','BF','GN','MR','NG','GH','GM','NE','TD','CM','DZ','MA','TN','EG','SA','AE','QA','TR','FR','GB','DE','IT','ES','US','CA'];
 
-        const fallbackCountries = ['CI','SN','ML','BF','GN','MR','NG','GH','GM','NE','TD','CM','DZ','MA','TN','EG','SA','AE','QA','TR','FR','GB','DE','IT','ES','US','CA','BE','CH','PT','BR','IN','PK','ID','MY','AU','JP','CN','ZA'];
+        function getHijriDetails(date) {
+            try {
+                const formatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                const parts = formatter.formatToParts(date);
+                let day = '', month = '', year = '';
+                for (const part of parts) {
+                    if (part.type === 'day') day = part.value;
+                    if (part.type === 'month') month = part.value;
+                    if (part.type === 'year') year = part.value;
+                }
+                return { day, month, year };
+            } catch(e) {
+                return { day: date.getDate().toString(), month: '', year: '' };
+            }
+        }
+
+        function getHijriMonthRange(year, month) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+
+            const h1 = getHijriDetails(firstDay);
+            const h2 = getHijriDetails(lastDay);
+
+            if (!h1.month || !h2.month) return '';
+
+            if (h1.month === h2.month) {
+                return `${h1.month} ${convertToArabicDigits(h1.year)} هـ`;
+            } else {
+                if (h1.year === h2.year) {
+                    return `${h1.month} / ${h2.month} ${convertToArabicDigits(h1.year)} هـ`;
+                } else {
+                    return `${h1.month} ${convertToArabicDigits(h1.year)} - ${h2.month} ${convertToArabicDigits(h2.year)} هـ`;
+                }
+            }
+        }
 
         function normalizeCountryCode(code) {
-            return typeof code === 'string' && /^[A-Za-z]{2}$/.test(code)
-                ? code.toUpperCase() : null;
-        }
-
-        function getCountryLocale(code) {
-            code = normalizeCountryCode(code);
-            return (code && countryLocales[code]) || browserLocale || 'en-US';
+            return typeof code === 'string' && /^[A-Za-z]{2}$/.test(code) ? code.toUpperCase() : null;
         }
 
         function countryFlag(code) {
             if (!code || code.length !== 2) return '🌍';
-            return code.toUpperCase().split('').map(c =>
-                String.fromCodePoint(127397 + c.charCodeAt(0))
-            ).join('');
+            return code.toUpperCase().split('').map(c => String.fromCodePoint(127397 + c.charCodeAt(0))).join('');
         }
 
         function applyYearTheme(year) {
@@ -681,19 +726,16 @@
         function getSeasonDecoration(monthIndex) {
             const season = getSeasonClass(monthIndex);
             const common = 'aria-hidden="true" focusable="false" viewBox="0 0 120 70"';
-            if (season === 'season-winter') return `<svg class="season-svg winter-svg" ${common}><g fill="none" stroke="currentColor" stroke-linecap="round"><path d="M60 7v56M32 22l56 32M88 22L32 54M36 7l48 56M84 7L36 63" stroke-width="2.4"/><path d="M60 7l-5 9m5-9 5 9M60 63l-5-9m5 9 5-9M32 22l10 1m-10-1 5 9M88 22l-10 1m10-1-5 9M32 54l10-1m-10 1 5-9M88 54l-10-1m10 1-5-9" stroke-width="1.8"/></g><circle cx="60" cy="35" r="8" fill="currentColor" opacity=".12"/></svg>`;
-            if (season === 'season-spring') return `<svg class="season-svg spring-svg" ${common}><path d="M60 63C57 47 61 30 73 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M61 48C44 49 32 41 29 27c17-2 29 6 32 21Z" fill="currentColor" opacity=".18"/><path d="M67 36c15-3 25-11 28-24-16-1-26 6-29 20Z" fill="currentColor" opacity=".22"/><g fill="currentColor" opacity=".28"><circle cx="77" cy="13" r="8"/><circle cx="69" cy="8" r="6"/><circle cx="85" cy="8" r="6"/></g><circle cx="77" cy="13" r="3" fill="currentColor"/></svg>`;
-            if (season === 'season-summer') return `<svg class="season-svg summer-svg" ${common}><circle cx="60" cy="35" r="14" fill="currentColor" opacity=".18"/><circle cx="60" cy="35" r="9" fill="currentColor" opacity=".32"/><g stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M60 5v10M60 55v10M30 35h10M80 35h10M39 14l7 7M74 49l7 7M81 14l-7 7M46 49l-7 7"/></g><path d="M22 62Q45 45 68 61t30-2" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".5"/></svg>`;
-            return `<svg class="season-svg autumn-svg" ${common}><path d="M55 62c7-17 15-31 27-45" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M35 18c18 0 29 9 30 27-18 2-29-8-30-27Z" fill="currentColor" opacity=".2"/><path d="M78 12c15 3 23 13 18 27-13-1-20-10-18-27Z" fill="currentColor" opacity=".27"/><path d="M39 48c12 1 20 8 17 19-11 0-17-7-17-19Z" fill="currentColor" opacity=".16"/><path d="M93 48c10 3 14 10 10 18-9-1-12-7-10-18Z" fill="currentColor" opacity=".22"/></svg>`;
+            if (season === 'season-winter') return `<svg class="season-svg winter-svg" ${common}><g fill="none" stroke="currentColor" stroke-linecap="round"><path d="M60 7v56M32 22l56 32M88 22L32 54" stroke-width="2.4"/></g></svg>`;
+            if (season === 'season-spring') return `<svg class="season-svg spring-svg" ${common}><path d="M60 63C57 47 61 30 73 15" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="77" cy="13" r="6" fill="currentColor"/></svg>`;
+            if (season === 'season-summer') return `<svg class="season-svg summer-svg" ${common}><circle cx="60" cy="35" r="12" fill="currentColor" opacity=".3"/><g stroke="currentColor" stroke-width="2.5"><path d="M60 10v8M60 52v8M35 35h8M77 35h8"/></g></svg>`;
+            return `<svg class="season-svg autumn-svg" ${common}><path d="M35 18c18 0 29 9 30 27-18 2-29-8-30-27Z" fill="currentColor" opacity=".25"/></svg>`;
         }
 
         async function loadCountries() {
             loadedCountriesData = [];
             try {
-                const res = await fetch('https://date.nager.at/api/v3/AvailableCountries', {
-                    cache: 'no-store',
-                    headers: { 'Accept': 'application/json' }
-                });
+                const res = await fetch('https://date.nager.at/api/v3/AvailableCountries', { cache: 'no-store' });
                 if (res.ok) {
                     const data = await res.json();
                     data.forEach(apiCountry => {
@@ -704,9 +746,7 @@
                         loadedCountriesData.push({ code, name: translatedName, flag: countryFlag(code) });
                     });
                 }
-            } catch(e) {
-                console.warn('تعذر تحميل قائمة الدول:', e);
-            }
+            } catch(e) {}
 
             if (loadedCountriesData.length === 0) {
                 fallbackCountries.forEach(code => {
@@ -716,9 +756,7 @@
                 });
             }
 
-            loadedCountriesData.sort((a,b) =>
-                a.name.localeCompare(b.name, browserLocale, { sensitivity: 'base' })
-            );
+            loadedCountriesData.sort((a,b) => a.name.localeCompare(b.name, browserLocale));
             renderCountryList(loadedCountriesData);
             updateCountryHeader();
         }
@@ -727,7 +765,7 @@
             const listContainer = document.getElementById('countryList');
             listContainer.innerHTML = data.map(c => `
                 <div class="country-item ${c.code === currentCountry ? 'active' : ''}" data-code="${c.code}" data-name="${c.name.toLowerCase()}">
-                    <span class="fs-4">${c.flag}</span>
+                    <span class="fs-5">${c.flag}</span>
                     <span>${c.name}</span>
                 </div>
             `).join('');
@@ -735,37 +773,27 @@
 
         const countryBtn = document.getElementById('countryBtn');
         const countryMenu = document.getElementById('countryMenu');
-        const countryOverlay = document.getElementById('countryOverlay');
         const countrySearchInput = document.getElementById('countrySearch');
         const noCountryResults = document.getElementById('noCountryResults');
         const countryListContainer = document.getElementById('countryList');
         
         function closeCountryDropdown() {
             countryMenu.classList.remove('show');
-            countryOverlay.classList.remove('show');
         }
 
         function openCountryDropdown() {
             document.getElementById('yearDropdown').classList.remove('show');
             countryMenu.classList.add('show');
-            countryOverlay.classList.add('show');
             countrySearchInput.value = ''; 
             document.querySelectorAll('.country-item').forEach(item => item.style.display = 'flex');
             noCountryResults.style.display = 'none';
-            setTimeout(() => { if(window.innerWidth > 600) countrySearchInput.focus(); }, 50);
         }
 
         countryBtn.addEventListener('click', (e) => {
-            e.preventDefault(); e.stopPropagation();
+            e.stopPropagation();
             if (countryMenu.classList.contains('show')) closeCountryDropdown();
             else openCountryDropdown();
         });
-
-        countrySearchInput.addEventListener('click', (e) => e.stopPropagation());
-        countrySearchInput.addEventListener('touchstart', (e) => e.stopPropagation());
-        document.querySelector('.country-search-box').addEventListener('click', (e) => e.stopPropagation());
-
-        countryMenu.addEventListener('click', (e) => e.stopPropagation());
 
         countryListContainer.addEventListener('click', async (e) => {
             const item = e.target.closest('.country-item');
@@ -774,7 +802,6 @@
                 if (!selectedCode) return;
                 currentCountry = selectedCode;
                 localStorage.setItem('calendarCountry', currentCountry);
-                localStorage.setItem('calendarCountryManual', '1');
                 closeCountryDropdown();
                 updateCountryHeader();
                 await renderYearCalendar(currentYear);
@@ -787,8 +814,7 @@
             let hasResults = false;
             items.forEach(item => {
                 const nameData = item.dataset.name || '';
-                const textContent = item.textContent.toLowerCase();
-                if (nameData.includes(term) || textContent.includes(term)) {
+                if (nameData.includes(term)) {
                     item.style.display = 'flex'; hasResults = true;
                 } else {
                     item.style.display = 'none';
@@ -801,21 +827,16 @@
             if (!document.getElementById('countryDropdownContainer').contains(e.target)) closeCountryDropdown();
             if (!document.getElementById('yearSelectorBtn').contains(e.target)) document.getElementById('yearDropdown').classList.remove('show');
         });
-        countryOverlay.addEventListener('click', closeCountryDropdown);
 
         function updateCountryHeader() {
             const countryInfo = loadedCountriesData.find(c => c.code === currentCountry);
             let name = currentCountry;
-            if (countryInfo) {
-                name = countryInfo.name;
-            } else {
-                try { name = regionNames.of(currentCountry) || currentCountry; } catch(e) {}
-            }
+            if (countryInfo) { name = countryInfo.name; } 
+            else { try { name = regionNames.of(currentCountry) || currentCountry; } catch(e) {} }
             
             const flag = countryInfo ? countryInfo.flag : countryFlag(currentCountry);
 
             document.getElementById('countryFlag').textContent = flag;
-            document.getElementById('countryFlag').title = name;
             document.getElementById('headerCountryBadge').textContent = flag;
             document.getElementById('headerCountryName').textContent = name;
 
@@ -824,104 +845,30 @@
             if (activeItem) activeItem.classList.add('active');
         }
 
-        async function detectCountrySilently() {
-            const manual = normalizeCountryCode(localStorage.getItem('calendarCountry'));
-            if (manual && localStorage.getItem('calendarCountryManual') === '1') return manual;
-
-            const validCodes = new Set(loadedCountriesData.map(c => c.code));
-            const endpoints = [
-                ['https://ipapi.co/json/', d => d && d.country_code],
-                ['https://ipwho.is/', d => d && d.success !== false ? d.country_code : null],
-                ['https://get.geojs.io/v1/ip/country.json', d => d && d.country]
-            ];
-
-            for (const [url, getCode] of endpoints) {
-                try {
-                    const controller = new AbortController();
-                    const timer = setTimeout(() => controller.abort(), 4500);
-                    const res = await fetch(url, {
-                        cache: 'no-store',
-                        headers: { 'Accept': 'application/json' },
-                        signal: controller.signal
-                    });
-                    clearTimeout(timer);
-                    if (!res.ok) continue;
-                    const data = await res.json();
-                    const code = normalizeCountryCode(getCode(data));
-                    if (code && validCodes.has(code)) return code;
-                } catch(e) {}
-            }
-
-            try {
-                const locales = [...(navigator.languages || []), navigator.language, navigator.userLanguage].filter(Boolean);
-                for (const locale of locales) {
-                    const match = String(locale).match(/[-_]([A-Za-z]{2})$/);
-                    const code = match ? normalizeCountryCode(match[1]) : null;
-                    if (code && validCodes.has(code)) return code;
-                }
-            } catch(e) {}
-
-            const timezoneCountryMap = {
-                'Africa/Abidjan':'CI','Africa/Dakar':'SN','Africa/Bamako':'ML',
-                'Africa/Ouagadougou':'BF','Africa/Conakry':'GN','Africa/Nouakchott':'MR',
-                'Africa/Niamey':'NE','Africa/Ndjamena':'TD','Africa/Douala':'CM',
-                'Africa/Lagos':'NG','Africa/Accra':'GH','Africa/Banjul':'GM',
-                'Africa/Algiers':'DZ','Africa/Casablanca':'MA','Africa/Tunis':'TN',
-                'Africa/Cairo':'EG','Africa/Johannesburg':'ZA','Europe/Paris':'FR',
-                'Europe/London':'GB','Europe/Berlin':'DE','Europe/Rome':'IT',
-                'Europe/Madrid':'ES','Europe/Lisbon':'PT','Europe/Istanbul':'TR',
-                'Asia/Riyadh':'SA','Asia/Dubai':'AE','Asia/Qatar':'QA',
-                'Asia/Tokyo':'JP','Asia/Shanghai':'CN','Asia/Kolkata':'IN',
-                'Asia/Karachi':'PK','Asia/Jakarta':'ID','Asia/Kuala_Lumpur':'MY',
-                'America/Toronto':'CA','America/New_York':'US','America/Los_Angeles':'US',
-                'America/Sao_Paulo':'BR','Australia/Sydney':'AU'
-            };
-            try {
-                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                const code = timezoneCountryMap[tz];
-                if (code && validCodes.has(code)) return code;
-            } catch(e) {}
-
-            return validCodes.has('CI') ? 'CI' : (loadedCountriesData[0]?.code || 'CI');
-        }
-
         async function loadHolidays(year) {
             holidays = new Map();
             const status = document.getElementById('holidayStatus');
-            if (status) status.textContent = 'جاري تحميل المناسبات…';
+            if (status) status.textContent = 'جاري التحميل…';
 
             try {
-                const res = await fetch(
-                    `https://date.nager.at/api/v3/PublicHolidays/${year}/${currentCountry}`,
-                    { cache: 'no-store', headers: { 'Accept': 'application/json' } }
-                );
-                if (!res.ok) throw new Error('holidays');
+                const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${currentCountry}`);
+                if (!res.ok) throw new Error();
                 const data = await res.json();
 
-                data.filter(h => h.global !== false).forEach(h => {
-                    const localName = typeof h.localName === 'string' ? h.localName.trim() : '';
-                    const englishName = typeof h.name === 'string' ? h.name.trim() : '';
-                    holidays.set(h.date, localName || englishName || 'عطلة رسمية');
+                data.forEach(h => {
+                    holidays.set(h.date, h.localName || h.name || 'عطلة رسمية');
                 });
 
                 if (status) status.textContent = `العطلات: ${holidays.size}`;
             } catch(e) {
-                console.warn(`تعذر تحميل مناسبات ${currentCountry}:`, e);
                 if (status) status.textContent = 'تعذر تحميل العطلات';
             }
-        }
-
-        function formatHolidayDate(iso) {
-            const d = new Date(iso + 'T00:00:00');
-            return d.toLocaleDateString(getCountryLocale(currentCountry), {
-                weekday:'long', year:'numeric', month:'long', day:'numeric'
-            });
         }
 
         function showHolidayEvent(name, iso) {
             const modal = document.getElementById('holidayModal');
             document.getElementById('holidayModalName').textContent = name;
-            document.getElementById('holidayModalDate').textContent = formatHolidayDate(iso);
+            document.getElementById('holidayModalDate').textContent = iso;
             modal.classList.add('show');
         }
 
@@ -942,13 +889,20 @@
                 const monthCard = document.createElement('div');
                 monthCard.classList.add('month-card', getSeasonClass(month));
 
+                const monthHeaderWrapper = document.createElement('div');
+                monthHeaderWrapper.classList.add('month-header-wrapper');
+
                 const monthTitle = document.createElement('div');
                 monthTitle.classList.add('month-title');
-                
-                // إضافة رقم السنة بجانب اسم الشهر بالأرقام الأدمية
                 monthTitle.innerText = `${monthNames[month]} ${convertToAdlam(year)}`;
-                
-                monthCard.appendChild(monthTitle);
+
+                const hijriBadge = document.createElement('div');
+                hijriBadge.classList.add('hijri-month-badge');
+                hijriBadge.innerText = getHijriMonthRange(year, month);
+
+                monthHeaderWrapper.appendChild(monthTitle);
+                monthHeaderWrapper.appendChild(hijriBadge);
+                monthCard.appendChild(monthHeaderWrapper);
 
                 const seasonOrnament = document.createElement('div');
                 seasonOrnament.className = 'season-ornament';
@@ -957,10 +911,15 @@
 
                 const daysHeader = document.createElement('div');
                 daysHeader.classList.add('days-of-week');
-                daysOfWeek.forEach(day => {
-                    const div = document.createElement('div');
-                    div.innerText = day;
-                    daysHeader.appendChild(div);
+                daysOfWeekInfo.forEach(d => {
+                    const chip = document.createElement('div');
+                    chip.classList.add('day-name-chip');
+                    if (d.isFriday) chip.classList.add('friday-chip');
+                    else if (d.isWeekend) chip.classList.add('weekend-chip');
+                    
+                    chip.innerText = d.short;
+                    chip.title = `${d.full} (${d.ar})`;
+                    daysHeader.appendChild(chip);
                 });
                 monthCard.appendChild(daysHeader);
 
@@ -979,12 +938,25 @@
                 for (let day = 1; day <= daysInMonth; day++) {
                     const dayCell = document.createElement('div');
                     dayCell.classList.add('day-cell');
-                    dayCell.innerText = convertToAdlam(day);
+
+                    const currentDateObj = new Date(year, month, day);
+                    const hijriInfo = getHijriDetails(currentDateObj);
+
+                    const adlamSpan = document.createElement('span');
+                    adlamSpan.classList.add('day-adlam');
+                    adlamSpan.innerText = convertToAdlam(day);
+
+                    const hijriSpan = document.createElement('span');
+                    hijriSpan.classList.add('day-hijri');
+                    hijriSpan.innerText = convertToArabicDigits(hijriInfo.day);
+
+                    dayCell.appendChild(adlamSpan);
+                    dayCell.appendChild(hijriSpan);
+
                     const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
                     if (holidays.has(iso)) {
-                        dayCell.classList.add('holiday', 'clickable');
+                        dayCell.classList.add('holiday');
                         dayCell.title = holidays.get(iso);
-                        dayCell.setAttribute('aria-label', `${day}: ${holidays.get(iso)}`);
                         dayCell.addEventListener('click', () => showHolidayEvent(holidays.get(iso), iso));
                     }
                     if (day === todayReal.getDate() && month === todayReal.getMonth() && year === todayReal.getFullYear()) {
@@ -1000,8 +972,6 @@
 
         const yearDropdown = document.getElementById('yearDropdown');
         const yearSelectorBtn = document.getElementById('yearSelectorBtn');
-
-        yearDropdown.addEventListener('click', (e) => e.stopPropagation());
 
         function populateYearDropdown() {
             yearDropdown.innerHTML = '';
@@ -1022,25 +992,11 @@
         }
 
         document.getElementById('holidayModalClose').addEventListener('click', closeHolidayEvent);
-        document.getElementById('holidayModal').addEventListener('click', (e) => {
-            if (e.target.id === 'holidayModal') closeHolidayEvent();
-        });
 
         yearSelectorBtn.addEventListener('click', (e) => {
-            e.preventDefault();
             e.stopPropagation();
             closeCountryDropdown();
-            const opening = !yearDropdown.classList.contains('show');
-            yearDropdown.classList.toggle('show', opening);
-            if (opening) {
-                requestAnimationFrame(() => {
-                    const selectedOpt = yearDropdown.querySelector('.selected');
-                    if (selectedOpt) {
-                        yearDropdown.scrollTop =
-                            Math.max(0, selectedOpt.offsetTop - (yearDropdown.clientHeight / 2));
-                    }
-                });
-            }
+            yearDropdown.classList.toggle('show');
         });
 
         document.getElementById('prevYear').addEventListener('click', () => {
@@ -1056,22 +1012,10 @@
         document.getElementById('printBtn').addEventListener('click', () => window.print());
 
         async function initCalendar() {
-            try {
-                await loadCountries();
-                currentCountry = await detectCountrySilently();
-                if (!normalizeCountryCode(currentCountry)) currentCountry = 'CI';
-
-                if (localStorage.getItem('calendarCountryManual') !== '1') {
-                    localStorage.setItem('calendarCountry', currentCountry);
-                }
-
-                updateCountryHeader();
-                await renderYearCalendar(currentYear);
-            } catch (e) {
-                console.error('Calendar initialization failed:', e);
-                currentCountry = 'CI';
-                await renderYearCalendar(currentYear);
-            }
+            await loadCountries();
+            const savedCountry = localStorage.getItem('calendarCountry');
+            if (savedCountry) currentCountry = savedCountry;
+            await renderYearCalendar(currentYear);
         }
 
         initCalendar();
