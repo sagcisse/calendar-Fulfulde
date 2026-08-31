@@ -130,6 +130,7 @@
 
         .year-selector-wrapper {
             position: relative;
+            z-index: 3000;
             cursor: pointer;
             padding: 4px 16px;
             border-radius: 14px;
@@ -149,11 +150,14 @@
         }
         .year-title::after { content: '▼'; font-size: 0.85rem; opacity: 0.85; margin-top: 4px; text-shadow: none; color: white;}
 
+        /* ===== إصلاح قائمة السنة (التسديل) ===== */
         .year-dropdown {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 10px);
             left: 50%;
+            right: auto;
             transform: translateX(-50%);
+            margin: 0;
             background: white;
             color: var(--text-color);
             border-radius: 14px;
@@ -161,12 +165,24 @@
             max-height: 300px;
             overflow-y: auto;
             display: none;
-            z-index: 1000;
+            z-index: 10000;
             width: 190px;
-            margin-top: 10px;
+            margin-top: 0;
             border: 1px solid rgba(0,0,0,0.08);
         }
         .year-dropdown.show { display: block; }
+        @media (max-width: 600px) {
+            .year-dropdown {
+                position: fixed;
+                top: 72px;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                width: 180px;
+                max-height: 55vh;
+                z-index: 10000;
+            }
+        }
         .year-option {
             padding: 12px;
             text-align: center;
@@ -235,10 +251,12 @@
         .country-btn .bi-chevron-down { font-size: 0.8rem; transition: transform 0.3s ease; }
         .country-menu.show ~ .country-btn .bi-chevron-down { transform: rotate(180deg); }
 
+        /* ===== إصلاح قائمة الدول للشاشات العادية ===== */
         .country-menu {
             position: absolute;
             top: 100%;
-            right: 0;
+            left: 0;
+            right: auto;
             background: #fff;
             min-width: 280px;
             border-radius: 16px;
@@ -249,7 +267,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             overflow: hidden;
             flex-direction: column;
-            transform-origin: top right;
+            transform-origin: top left;
         }
         
         .country-menu.show { 
@@ -308,20 +326,41 @@
         .country-item:hover { background: #f0fdfa; color: var(--primary-color); }
         .country-item.active { background: var(--primary-color); color: #fff; }
 
+        /* ===== إصلاح قائمة الدول للجوال ===== */
         @media (max-width: 600px) {
             .country-btn span.country-name-text { display: none; }
-            .country-menu { position: fixed; top: 50%; left: 50%; right: auto; transform: translate(-50%, -50%) !important; width: 90%; max-width: 350px; z-index: 9999; }
+            .country-menu { 
+                position: fixed; 
+                top: 0; 
+                bottom: 0; 
+                left: 0; 
+                right: 0; 
+                margin: auto; 
+                width: 90%; 
+                max-width: 350px; 
+                height: fit-content; 
+                max-height: 85vh; 
+                z-index: 9999; 
+                transform: none !important; 
+            }
+            .country-menu.show {
+                animation: mobileDropdownFade 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            }
             .country-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9998; display: none; backdrop-filter: blur(3px); }
             .country-menu-overlay.show { display: block; }
         }
 
-        /* ===== تعديلات التصميم لشارة السنة وإطار العلم (بنفس لون رأس الصفحة) ===== */
+        @keyframes mobileDropdownFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
         .year-badge {
             display: inline-flex; align-items: center; justify-content: center;
             direction: ltr !important; flex-direction: row !important;
             min-width: 185px; height: 64px; padding: 5px 14px 5px 9px;
             border-radius: 20px; 
-            background: #ffffff; /* جعل الخلفية بيضاء ليبرز اللون الأساسي */
+            background: #ffffff;
             border: 2px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 7px 18px rgba(0, 0, 0, .15);
             transition: all 0.3s ease;
@@ -335,13 +374,13 @@
             display: inline-flex; align-items: center; justify-content: center; 
             min-width: 92px; font-size: 2.15rem; line-height: 1; font-weight: 900; 
             letter-spacing: .03em; 
-            color: var(--primary-color); /* لون النص يطابق الترويسة */
+            color: var(--primary-color);
             white-space: nowrap; 
         }
         
         .year-divider { 
             width: 2px; height: 36px; margin: 0 13px; 
-            background: var(--primary-color); /* لون الفاصل يطابق الترويسة */
+            background: var(--primary-color);
             opacity: 0.25; 
         }
         
@@ -349,7 +388,7 @@
             width: 47px; height: 47px; flex: 0 0 47px; display: flex; align-items: center; 
             justify-content: center; border-radius: 14px; 
             background: #f4f7fb; 
-            border: 2.5px solid var(--primary-color); /* إطار العلم يطابق لون الترويسة */
+            border: 2.5px solid var(--primary-color);
             font-family: "Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif; 
             font-size: 1.85rem; line-height: 1; filter: none; 
         }
@@ -507,7 +546,6 @@
                         </button>
                         
                         <div class="country-menu" id="countryMenu">
-                            <!-- تم إضافة منع الانتقال للأحداث في الخانة -->
                             <div class="country-search-box">
                                 <i class="bi bi-search text-muted"></i>
                                 <input type="text" id="countrySearch" placeholder="ابحث عن دولة..." autocomplete="off">
@@ -586,15 +624,37 @@
         let holidays = new Map();
         let loadedCountriesData = [];
 
-        const userLocale = navigator.language || 'ar';
+        const browserLocale = navigator.language || navigator.userLanguage || 'ar';
         let regionNames;
         try {
-            regionNames = new Intl.DisplayNames([userLocale], { type: 'region' });
+            regionNames = new Intl.DisplayNames([browserLocale], { type: 'region' });
         } catch(e) {
-            regionNames = new Intl.DisplayNames(['ar'], { type: 'region' }); 
+            regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
         }
 
+        // لغة المناسبة تُؤخذ من بيانات الدولة نفسها، وليست من لغة المتصفح.
+        const countryLocales = {
+            CI:'fr-FR', SN:'fr-FR', ML:'fr-FR', BF:'fr-FR', GN:'fr-FR',
+            MR:'ar-MR', NE:'fr-FR', TD:'fr-FR', CM:'fr-FR',
+            DZ:'ar-DZ', MA:'ar-MA', TN:'ar-TN', EG:'ar-EG', SA:'ar-SA',
+            AE:'ar-AE', QA:'ar-QA', TR:'tr-TR', FR:'fr-FR', GB:'en-GB',
+            DE:'de-DE', IT:'it-IT', ES:'es-ES', US:'en-US', CA:'en-CA',
+            BE:'fr-BE', CH:'de-CH', PT:'pt-PT', BR:'pt-BR', IN:'en-IN',
+            PK:'ur-PK', ID:'id-ID', MY:'ms-MY', AU:'en-AU', JP:'ja-JP',
+            CN:'zh-CN', ZA:'en-ZA', NG:'en-NG', GH:'en-GH', GM:'en-GM'
+        };
+
         const fallbackCountries = ['CI','SN','ML','BF','GN','MR','NG','GH','GM','NE','TD','CM','DZ','MA','TN','EG','SA','AE','QA','TR','FR','GB','DE','IT','ES','US','CA','BE','CH','PT','BR','IN','PK','ID','MY','AU','JP','CN','ZA'];
+
+        function normalizeCountryCode(code) {
+            return typeof code === 'string' && /^[A-Za-z]{2}$/.test(code)
+                ? code.toUpperCase() : null;
+        }
+
+        function getCountryLocale(code) {
+            code = normalizeCountryCode(code);
+            return (code && countryLocales[code]) || browserLocale || 'en-US';
+        }
 
         function countryFlag(code) {
             if (!code || code.length !== 2) return '🌍';
@@ -633,36 +693,35 @@
         async function loadCountries() {
             loadedCountriesData = [];
             try {
-                const res = await fetch('https://date.nager.at/api/v3/AvailableCountries', {cache:'no-store'});
+                const res = await fetch('https://date.nager.at/api/v3/AvailableCountries', {
+                    cache: 'no-store',
+                    headers: { 'Accept': 'application/json' }
+                });
                 if (res.ok) {
                     const data = await res.json();
                     data.forEach(apiCountry => {
-                        let translatedName = apiCountry.name;
-                        try {
-                            translatedName = regionNames.of(apiCountry.countryCode) || apiCountry.name;
-                        } catch(e) {}
-                        loadedCountriesData.push({
-                            code: apiCountry.countryCode,
-                            name: translatedName,
-                            flag: countryFlag(apiCountry.countryCode)
-                        });
+                        const code = normalizeCountryCode(apiCountry.countryCode);
+                        if (!code) return;
+                        let translatedName = apiCountry.name || code;
+                        try { translatedName = regionNames.of(code) || translatedName; } catch(e) {}
+                        loadedCountriesData.push({ code, name: translatedName, flag: countryFlag(code) });
                     });
                 }
-            } catch(e) {}
-            
-            if(loadedCountriesData.length === 0) {
+            } catch(e) {
+                console.warn('تعذر تحميل قائمة الدول:', e);
+            }
+
+            if (loadedCountriesData.length === 0) {
                 fallbackCountries.forEach(code => {
                     let nameStr = code;
                     try { nameStr = regionNames.of(code) || code; } catch(e) {}
-                    loadedCountriesData.push({
-                        code: code,
-                        name: nameStr,
-                        flag: countryFlag(code)
-                    });
+                    loadedCountriesData.push({ code, name: nameStr, flag: countryFlag(code) });
                 });
             }
 
-            loadedCountriesData.sort((a,b) => a.name.localeCompare(b.name, userLocale));
+            loadedCountriesData.sort((a,b) =>
+                a.name.localeCompare(b.name, browserLocale, { sensitivity: 'base' })
+            );
             renderCountryList(loadedCountriesData);
             updateCountryHeader();
         }
@@ -705,7 +764,6 @@
             else openCountryDropdown();
         });
 
-        // منع إغلاق القائمة عند التفاعل مع خانة البحث
         countrySearchInput.addEventListener('click', (e) => e.stopPropagation());
         countrySearchInput.addEventListener('touchstart', (e) => e.stopPropagation());
         document.querySelector('.country-search-box').addEventListener('click', (e) => e.stopPropagation());
@@ -715,8 +773,11 @@
         countryListContainer.addEventListener('click', async (e) => {
             const item = e.target.closest('.country-item');
             if (item) {
-                currentCountry = item.dataset.code;
+                const selectedCode = normalizeCountryCode(item.dataset.code);
+                if (!selectedCode) return;
+                currentCountry = selectedCode;
                 localStorage.setItem('calendarCountry', currentCountry);
+                localStorage.setItem('calendarCountryManual', '1');
                 closeCountryDropdown();
                 updateCountryHeader();
                 await renderYearCalendar(currentYear);
@@ -766,54 +827,98 @@
             if (activeItem) activeItem.classList.add('active');
         }
 
-        // تم تحسين دالة التحديد التلقائي لتعمل بشكل أفضل ومباشر عبر الـ IP
         async function detectCountrySilently() {
-            const stored = localStorage.getItem('calendarCountry');
-            if (stored) return stored;
+            const manual = normalizeCountryCode(localStorage.getItem('calendarCountry'));
+            if (manual && localStorage.getItem('calendarCountryManual') === '1') return manual;
+
+            const validCodes = new Set(loadedCountriesData.map(c => c.code));
+            const endpoints = [
+                ['https://ipapi.co/json/', d => d && d.country_code],
+                ['https://ipwho.is/', d => d && d.success !== false ? d.country_code : null],
+                ['https://get.geojs.io/v1/ip/country.json', d => d && d.country]
+            ];
+
+            for (const [url, getCode] of endpoints) {
+                try {
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), 4500);
+                    const res = await fetch(url, {
+                        cache: 'no-store',
+                        headers: { 'Accept': 'application/json' },
+                        signal: controller.signal
+                    });
+                    clearTimeout(timer);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    const code = normalizeCountryCode(getCode(data));
+                    if (code && validCodes.has(code)) return code;
+                } catch(e) {}
+            }
 
             try {
-                // الاعتماد على IP كخيار أول (لأنه يعمل تلقائياً وبدقة في كافة المتصفحات)
-                const res = await fetch('https://get.geojs.io/v1/ip/country.json');
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.country) return data.country;
-                }
-            } catch(e) {
-                console.warn("IP detection failed, checking locale.");
-            }
-            
-            try {
-                // بديل عبر لغة المتصفح إذا فشل الـ IP
-                const userLang = navigator.language || navigator.userLanguage;
-                if(userLang && userLang.includes('-')) {
-                    return userLang.split('-')[1].toUpperCase();
+                const locales = [...(navigator.languages || []), navigator.language, navigator.userLanguage].filter(Boolean);
+                for (const locale of locales) {
+                    const match = String(locale).match(/[-_]([A-Za-z]{2})$/);
+                    const code = match ? normalizeCountryCode(match[1]) : null;
+                    if (code && validCodes.has(code)) return code;
                 }
             } catch(e) {}
 
-            return 'CI'; // الوضع الافتراضي كوت ديفوار
+            const timezoneCountryMap = {
+                'Africa/Abidjan':'CI','Africa/Dakar':'SN','Africa/Bamako':'ML',
+                'Africa/Ouagadougou':'BF','Africa/Conakry':'GN','Africa/Nouakchott':'MR',
+                'Africa/Niamey':'NE','Africa/Ndjamena':'TD','Africa/Douala':'CM',
+                'Africa/Lagos':'NG','Africa/Accra':'GH','Africa/Banjul':'GM',
+                'Africa/Algiers':'DZ','Africa/Casablanca':'MA','Africa/Tunis':'TN',
+                'Africa/Cairo':'EG','Africa/Johannesburg':'ZA','Europe/Paris':'FR',
+                'Europe/London':'GB','Europe/Berlin':'DE','Europe/Rome':'IT',
+                'Europe/Madrid':'ES','Europe/Lisbon':'PT','Europe/Istanbul':'TR',
+                'Asia/Riyadh':'SA','Asia/Dubai':'AE','Asia/Qatar':'QA',
+                'Asia/Tokyo':'JP','Asia/Shanghai':'CN','Asia/Kolkata':'IN',
+                'Asia/Karachi':'PK','Asia/Jakarta':'ID','Asia/Kuala_Lumpur':'MY',
+                'America/Toronto':'CA','America/New_York':'US','America/Los_Angeles':'US',
+                'America/Sao_Paulo':'BR','Australia/Sydney':'AU'
+            };
+            try {
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const code = timezoneCountryMap[tz];
+                if (code && validCodes.has(code)) return code;
+            } catch(e) {}
+
+            return validCodes.has('CI') ? 'CI' : (loadedCountriesData[0]?.code || 'CI');
         }
 
         async function loadHolidays(year) {
             holidays = new Map();
             const status = document.getElementById('holidayStatus');
-            if (status) status.textContent = 'جاري التحميل…';
+            if (status) status.textContent = 'جاري تحميل المناسبات…';
+
             try {
-                const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${currentCountry}`, {cache:'no-store'});
+                const res = await fetch(
+                    `https://date.nager.at/api/v3/PublicHolidays/${year}/${currentCountry}`,
+                    { cache: 'no-store', headers: { 'Accept': 'application/json' } }
+                );
                 if (!res.ok) throw new Error('holidays');
                 const data = await res.json();
+
                 data.filter(h => h.global !== false).forEach(h => {
-                    let name = (h.localName && h.localName.trim()) ? h.localName.trim() : (h.name || 'عطلة رسمية');
-                    holidays.set(h.date, name);
+                    const localName = typeof h.localName === 'string' ? h.localName.trim() : '';
+                    const englishName = typeof h.name === 'string' ? h.name.trim() : '';
+                    holidays.set(h.date, localName || englishName || 'عطلة رسمية');
                 });
+
                 if (status) status.textContent = `العطلات: ${holidays.size}`;
             } catch(e) {
+                console.warn(`تعذر تحميل مناسبات ${currentCountry}:`, e);
                 if (status) status.textContent = 'تعذر تحميل العطلات';
             }
         }
 
         function formatHolidayDate(iso) {
             const d = new Date(iso + 'T00:00:00');
-            return d.toLocaleDateString(userLocale, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+            return d.toLocaleDateString(getCountryLocale(currentCountry), {
+                weekday:'long', year:'numeric', month:'long', day:'numeric'
+            });
         }
 
         function showHolidayEvent(name, iso) {
@@ -896,7 +1001,6 @@
         const yearDropdown = document.getElementById('yearDropdown');
         const yearSelectorBtn = document.getElementById('yearSelectorBtn');
 
-        // منع إغلاق خانة السنوات عند النقر بداخلها بالخطأ (فقط يتم الإغلاق عند النقر على السنة نفسها)
         yearDropdown.addEventListener('click', (e) => e.stopPropagation());
 
         function populateYearDropdown() {
@@ -923,11 +1027,20 @@
         });
 
         yearSelectorBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             e.stopPropagation();
-            closeCountryDropdown(); 
-            yearDropdown.classList.toggle('show');
-            const selectedOpt = yearDropdown.querySelector('.selected');
-            if(selectedOpt) yearDropdown.scrollTop = selectedOpt.offsetTop - (yearDropdown.clientHeight / 2);
+            closeCountryDropdown();
+            const opening = !yearDropdown.classList.contains('show');
+            yearDropdown.classList.toggle('show', opening);
+            if (opening) {
+                requestAnimationFrame(() => {
+                    const selectedOpt = yearDropdown.querySelector('.selected');
+                    if (selectedOpt) {
+                        yearDropdown.scrollTop =
+                            Math.max(0, selectedOpt.offsetTop - (yearDropdown.clientHeight / 2));
+                    }
+                });
+            }
         });
 
         document.getElementById('prevYear').addEventListener('click', () => {
@@ -942,15 +1055,25 @@
 
         document.getElementById('printBtn').addEventListener('click', () => window.print());
 
-        // التهيئة الرئيسية مع تحديث مسار جلب الدولة تلقائياً
         async function initCalendar() {
-            currentCountry = await detectCountrySilently();
-            localStorage.setItem('calendarCountry', currentCountry);
-            
-            await loadCountries();
-            await renderYearCalendar(currentYear);
+            try {
+                await loadCountries();
+                currentCountry = await detectCountrySilently();
+                if (!normalizeCountryCode(currentCountry)) currentCountry = 'CI';
+
+                if (localStorage.getItem('calendarCountryManual') !== '1') {
+                    localStorage.setItem('calendarCountry', currentCountry);
+                }
+
+                updateCountryHeader();
+                await renderYearCalendar(currentYear);
+            } catch (e) {
+                console.error('Calendar initialization failed:', e);
+                currentCountry = 'CI';
+                await renderYearCalendar(currentYear);
+            }
         }
-        
+
         initCalendar();
     </script>
 </body>
