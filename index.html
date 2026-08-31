@@ -497,27 +497,31 @@
 
         /* ===== إعدادات الطباعة ===== */
         @media print {
-            @page { size: 210mm 297mm; margin: 4mm; }
-            html, body { background: #fff !important; margin: 0 !important; padding: 0 !important; width: 202mm !important; height: 289mm !important; overflow: hidden !important; }
-            body { display: block !important; }
-            .main-container { background: #fff !important; width: 202mm !important; height: 289mm !important; margin: 0 !important; padding: 2mm !important; display: flex !important; flex-direction: column !important; overflow: hidden !important; }
-            .year-header { flex: 0 0 auto !important; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; padding: 3mm !important; margin-bottom: 2mm !important; }
-            .glassy-adlam-title { background: #fff !important; padding: 1mm 4mm !important; }
-            .adlam-shiny-text { color: #0d47a1 !important; -webkit-text-fill-color: #0d47a1 !important; font-size: 4.5mm !important; }
-            .header-controls-row { display: flex !important; justify-content: center !important; }
-            .year-badge { background: #fff !important; padding: 1mm 3mm !important; height: 8mm !important; }
-            #yearText { color: var(--primary-color) !important; font-size: 6mm !important; }
-            .country-flag { width: 7mm !important; height: 7mm !important; font-size: 4.5mm !important; }
-            .btn-circle, .custom-country-dropdown, .print-btn, .holiday-legend, .holiday-modal, .header-shine-overlay { display: none !important; }
-            .months-grid { flex: 1 1 auto !important; display: grid !important; grid-template-columns: repeat(3, 1fr) !important; grid-template-rows: repeat(4, 1fr) !important; gap: 1mm !important; }
-            .month-card { padding: 1mm !important; border-width: 0.4mm !important; }
-            .month-header-wrapper { margin-bottom: 0.5mm !important; padding: 0.5mm !important; }
-            .month-title { font-size: 3mm !important; }
-            .hijri-month-badge { font-size: 2mm !important; }
-            .days-of-week { font-size: 2mm !important; margin-bottom: 0.5mm !important; padding: 0.3mm !important; }
-            .days-grid { gap: 0.4mm !important; }
-            .day-cell .day-adlam { font-size: 3mm !important; }
-            .day-cell .day-hijri { font-size: 1.6mm !important; }
+            @page { size: A4 portrait; margin: 5mm; }
+            html, body { background:#fff !important; margin:0 !important; padding:0 !important; width:auto !important; height:auto !important; min-height:0 !important; overflow:visible !important; }
+            body { display:block !important; }
+            .main-container { background:#fff !important; width:200mm !important; height:287mm !important; max-width:none !important; margin:0 auto !important; padding:0 !important; display:flex !important; flex-direction:column !important; overflow:hidden !important; }
+            .year-header { flex:0 0 auto !important; background:linear-gradient(135deg,var(--primary-color),var(--secondary-color)) !important; padding:3mm !important; margin:0 0 2mm !important; border-radius:4mm !important; }
+            .glassy-adlam-title { background:#fff !important; padding:1mm 4mm !important; }
+            .adlam-shiny-text { color:#0d47a1 !important; -webkit-text-fill-color:#0d47a1 !important; font-size:4.5mm !important; }
+            .header-controls-row { display:flex !important; justify-content:center !important; align-items:center !important; }
+            .year-selector-wrapper { padding:1mm 4mm !important; }
+            .year-title { font-size:1rem !important; }
+            .year-title::after { display:none !important; }
+            .year-badge { position:relative !important; min-width:52mm !important; height:18mm !important; padding:2mm 7mm !important; border-radius:9mm !important; background:linear-gradient(180deg,#fff,#f3f7ff) !important; border:.8mm solid var(--year-accent) !important; box-shadow:0 1.5mm 4mm rgba(0,0,0,.18),inset 0 0 0 .5mm rgba(255,255,255,.9) !important; }
+            .year-badge::before,.year-badge::after { content:"✦" !important; position:absolute !important; top:50% !important; transform:translateY(-50%) !important; color:var(--year-accent) !important; font-size:5mm !important; font-weight:900 !important; }
+            .year-badge::before { left:2.5mm !important; } .year-badge::after { right:2.5mm !important; }
+            #yearText { color:var(--primary-color) !important; font-size:11mm !important; font-weight:900 !important; letter-spacing:1mm !important; line-height:1 !important; }
+            .country-flag { width:8mm !important; height:8mm !important; font-size:5mm !important; }
+            .year-divider { height:9mm !important; margin:0 3mm !important; }
+            .btn-circle,.custom-country-dropdown,.print-btn,.holiday-legend,.holiday-modal,.header-shine-overlay { display:none !important; }
+            .months-grid { flex:1 1 auto !important; min-height:0 !important; display:grid !important; grid-template-columns:repeat(3,1fr) !important; grid-template-rows:repeat(4,1fr) !important; gap:1mm !important; }
+            .month-card { padding:1mm !important; border-width:.4mm !important; min-height:0 !important; }
+            .month-header-wrapper { margin-bottom:.5mm !important; padding:.5mm !important; }
+            .month-title { font-size:3mm !important; } .hijri-month-badge { font-size:2mm !important; }
+            .days-of-week { font-size:2mm !important; margin-bottom:.5mm !important; padding:.3mm !important; }
+            .days-grid { gap:.4mm !important; min-height:0 !important; }
+            .day-cell .day-adlam { font-size:3mm !important; } .day-cell .day-hijri { font-size:1.6mm !important; }
         }
     </style>
 </head>
@@ -619,13 +623,13 @@
         ];
 
         const daysOfWeekInfo = [
-            { short: "𞤈𞤬", full: "𞤈𞤫𞤬𞤦𞤭𞤪𞥆𞤫", ar: "الأحد", isWeekend: true },
-            { short: "𞤀𞥄𞤩", full: "𞤀𞥄𞤩𞤲𞤣𞤫", ar: "الإثنين", isWeekend: false },
-            { short: "𞤃𞤱", full: "𞤃𞤢𞤱𞤦𞤢𞥄𞤪𞤫", ar: "الثلاثاء", isWeekend: false },
-            { short: "𞤐𞤶", full: "𞤐'𞤶𞤫𞤧𞤤𞤢𞥄𞤪𞤫", ar: "الأربعاء", isWeekend: false },
-            { short: "𞤐𞤧", full: "𞤐𞤢𞥄𞤧𞤢𞤲𞤣𞤫", ar: "الخميس", isWeekend: false },
-            { short: "𞤃𞤱", full: "𞤃𞤢𞤱𞤲'𞤣𞤫", ar: "الجمعة", isWeekend: true, isFriday: true },
-            { short: "𞤖𞤪", full: "𞤖𞤮𞤪𞤦𞤭𞤪𞥆𞤫", ar: "السبت", isWeekend: true }
+            { short: "𞤁𞤫", full: "𞤁𞤫𞤦𞤦𞤫", ar: "الأحد", isWeekend: true },
+            { short: "𞤀𞤢", full: "𞤀𞤼𞤭𞤲𞤭", ar: "الإثنين", isWeekend: false },
+            { short: "𞤃𞤦", full: "𞤃𞤢𞤦𞤦𞤢𞥄𞤪𞤫", ar: "الثلاثاء", isWeekend: false },
+            { short: "𞤐𞤶", full: "𞤐𞤶𞤫𞥅𤤤𞤢𞥄𞤪𞤫", ar: "الأربعاء", isWeekend: false },
+            { short: "𞤐𞤢", full: "𞤐𞤢𞥄𞤲𞤅𞤢𞥄𞤪𞤫", ar: "الخميس", isWeekend: false },
+            { short: "𞤃𞤱", full: "𞤃𞤢𞥄𞤱𞤲𞤁𞤫", ar: "الجمعة", isWeekend: true, isFriday: true },
+            { short: "𞤖𞤮", full: "𞤖𞤮𞥅𞤪𞤦𞤭𞤪𞥅𞤪𞤫", ar: "السبت", isWeekend: true }
         ];
 
         const yearThemes = [
@@ -1016,6 +1020,433 @@
             const savedCountry = localStorage.getItem('calendarCountry');
             if (savedCountry) currentCountry = savedCountry;
             await renderYearCalendar(currentYear);
+        }
+
+        initCalendar();
+    </script>
+</body>
+</html>
+st countryInfo = loadedCountriesData.find(c => c.code === currentCountry);
+            let name = currentCountry;
+            if (countryInfo) { name = countryInfo.name; } 
+            else { try { name = regionNames.of(currentCountry) || currentCountry; } catch(e) {} }
+            
+            const flag = countryInfo ? countryInfo.flag : countryFlag(currentCountry);
+
+            document.getElementById('countryFlag').textContent = flag;
+            document.getElementById('countryFlag').title = name;
+            document.getElementById('headerCountryBadge').textContent = flag;
+            document.getElementById('headerCountryName').textContent = name;
+
+            document.querySelectorAll('.country-item').forEach(i => i.classList.remove('active'));
+            const activeItem = document.querySelector(`.country-item[data-code="${currentCountry}"]`);
+            if (activeItem) activeItem.classList.add('active');
+        }
+
+        async function detectCountrySilently() {
+            const manual = normalizeCountryCode(localStorage.getItem('calendarCountry'));
+            if (manual && localStorage.getItem('calendarCountryManual') === '1') return manual;
+
+            const validCodes = new Set(loadedCountriesData.map(c => c.code));
+            const endpoints = [
+                ['https://ipapi.co/json/', d => d && d.country_code],
+                ['https://ipwho.is/', d => d && d.success !== false ? d.country_code : null],
+                ['https://get.geojs.io/v1/ip/country.json', d => d && d.country]
+            ];
+
+            for (const [url, getCode] of endpoints) {
+                try {
+                    const controller = new AbortController();
+                    const timer = setTimeout(() => controller.abort(), 4500);
+                    const res = await fetch(url, { cache: 'no-store', headers: { 'Accept': 'application/json' }, signal: controller.signal });
+                    clearTimeout(timer);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    const code = normalizeCountryCode(getCode(data));
+                    if (code && validCodes.has(code)) return code;
+                } catch(e) {}
+            }
+
+            return validCodes.has('CI') ? 'CI' : (loadedCountriesData[0]?.code || 'CI');
+        }
+
+        async function loadHolidays(year) {
+            holidays = new Map();
+            const status = document.getElementById('holidayStatus');
+            if (status) status.textContent = 'جاري تحميل المناسبات…';
+
+            try {
+                const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/${currentCountry}`, { cache: 'no-store', headers: { 'Accept': 'application/json' } });
+                if (!res.ok) throw new Error('holidays');
+                const data = await res.json();
+
+                data.filter(h => h.global !== false).forEach(h => {
+                    const localName = typeof h.localName === 'string' ? h.localName.trim() : '';
+                    const englishName = typeof h.name === 'string' ? h.name.trim() : '';
+                    holidays.set(h.date, localName || englishName || 'عطلة رسمية');
+                });
+
+                if (status) status.textContent = `العطلات: ${holidays.size}`;
+            } catch(e) {
+                console.warn(`تعذر تحميل مناسبات ${currentCountry}:`, e);
+                if (status) status.textContent = 'تعذر تحميل العطلات';
+            }
+        }
+
+        function formatHolidayDate(iso) {
+            const d = new Date(iso + 'T00:00:00');
+            return d.toLocaleDateString(getCountryLocale(currentCountry), { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+        }
+
+        function showHolidayEvent(name, iso) {
+            const modal = document.getElementById('holidayModal');
+            document.getElementById('holidayModalName').textContent = name;
+            document.getElementById('holidayModalDate').textContent = formatHolidayDate(iso);
+            modal.classList.add('show');
+        }
+
+        function closeHolidayEvent() {
+            document.getElementById('holidayModal').classList.remove('show');
+        }
+
+        async function renderYearCalendar(year) {
+            applyYearTheme(year);
+            document.getElementById('yearText').innerText = convertToAdlam(year);
+            updateCountryHeader();
+            const grid = document.getElementById('monthsGrid');
+            grid.innerHTML = '';
+            await loadHolidays(year);
+
+            for (let i = 0; i < 12; i++) {
+                const month = i;
+                const monthCard = document.createElement('div');
+                monthCard.classList.add('month-card', getSeasonClass(month));
+
+                /* رأس الشهر المزدوج (فولاني + هجري) */
+                const monthHeaderWrapper = document.createElement('div');
+                monthHeaderWrapper.classList.add('month-header-wrapper');
+
+                const monthTitle = document.createElement('div');
+                monthTitle.classList.add('month-title');
+                monthTitle.innerText = `${monthNames[month]} ${convertToAdlam(year)}`;
+
+                const hijriBadge = document.createElement('div');
+                hijriBadge.classList.add('hijri-month-badge');
+                hijriBadge.innerText = getHijriMonthRange(year, month);
+
+                monthHeaderWrapper.appendChild(monthTitle);
+                monthHeaderWrapper.appendChild(hijriBadge);
+                monthCard.appendChild(monthHeaderWrapper);
+
+                const seasonOrnament = document.createElement('div');
+                seasonOrnament.className = 'season-ornament';
+                seasonOrnament.innerHTML = getSeasonDecoration(month);
+                monthCard.appendChild(seasonOrnament);
+
+                /* تصميم خانة الأيام الذكي */
+                const daysHeader = document.createElement('div');
+                daysHeader.classList.add('days-of-week');
+                daysOfWeekInfo.forEach(d => {
+                    const chip = document.createElement('div');
+                    chip.classList.add('day-name-chip');
+                    if (d.isFriday) chip.classList.add('friday-chip');
+                    else if (d.isWeekend) chip.classList.add('weekend-chip');
+                    
+                    chip.innerText = d.short;
+                    chip.title = `${d.full} (${d.ar})`;
+                    daysHeader.appendChild(chip);
+                });
+                monthCard.appendChild(daysHeader);
+
+                const daysGrid = document.createElement('div');
+                daysGrid.classList.add('days-grid');
+
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                for (let j = 0; j < firstDayOfMonth; j++) {
+                    const empty = document.createElement('div');
+                    empty.classList.add('day-cell', 'empty');
+                    daysGrid.appendChild(empty);
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.classList.add('day-cell');
+
+                    const currentDateObj = new Date(year, month, day);
+                    const hijriInfo = getHijriDetails(currentDateObj);
+
+                    const adlamSpan = document.createElement('span');
+                    adlamSpan.classList.add('day-adlam');
+                    adlamSpan.innerText = convertToAdlam(day);
+
+                    const hijriSpan = document.createElement('span');
+                    hijriSpan.classList.add('day-hijri');
+                    hijriSpan.innerText = convertToArabicDigits(hijriInfo.day);
+
+                    dayCell.appendChild(adlamSpan);
+                    dayCell.appendChild(hijriSpan);
+
+                    const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                    if (holidays.has(iso)) {
+                        dayCell.classList.add('holiday', 'clickable');
+                        dayCell.title = holidays.get(iso);
+                        dayCell.setAttribute('aria-label', `${day}: ${holidays.get(iso)}`);
+                        dayCell.addEventListener('click', () => showHolidayEvent(holidays.get(iso), iso));
+                    }
+                    if (day === todayReal.getDate() && month === todayReal.getMonth() && year === todayReal.getFullYear()) {
+                        dayCell.classList.add('today');
+                    }
+                    daysGrid.appendChild(dayCell);
+                }
+                monthCard.appendChild(daysGrid);
+                grid.appendChild(monthCard);
+            }
+            populateYearDropdown();
+        }
+
+        const yearDropdown = document.getElementById('yearDropdown');
+        const yearSelectorBtn = document.getElementById('yearSelectorBtn');
+
+        yearDropdown.addEventListener('click', (e) => e.stopPropagation());
+
+        function populateYearDropdown() {
+            yearDropdown.innerHTML = '';
+            for (let y = 1900; y <= 2100; y++) {
+                const option = document.createElement('div');
+                option.classList.add('year-option');
+                if (y === currentYear) option.classList.add('selected');
+                option.innerText = convertToAdlam(y);
+                
+                option.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    currentYear = y;
+                    yearDropdown.classList.remove('show');
+                    await renderYearCalendar(currentYear); 
+                });
+                yearDropdown.appendChild(option);
+            }
+        }
+
+        document.getElementById('holidayModalClose').addEventListener('click', closeHolidayEvent);
+        document.getElementById('holidayModal').addEventListener('click', (e) => {
+            if (e.target.id === 'holidayModal') closeHolidayEvent();
+        });
+
+        yearSelectorBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeCountryDropdown();
+            const opening = !yearDropdown.classList.contains('show');
+            yearDropdown.classList.toggle('show', opening);
+            if (opening) {
+                requestAnimationFrame(() => {
+                    const selectedOpt = yearDropdown.querySelector('.selected');
+                    if (selectedOpt) {
+                        yearDropdown.scrollTop = Math.max(0, selectedOpt.offsetTop - (yearDropdown.clientHeight / 2));
+                    }
+                });
+            }
+        });
+
+        document.getElementById('prevYear').addEventListener('click', () => {
+            currentYear--;
+            renderYearCalendar(currentYear);
+        });
+
+        document.getElementById('nextYear').addEventListener('click', () => {
+            currentYear++;
+            renderYearCalendar(currentYear);
+        });
+
+        document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+        async function initCalendar() {
+            try {
+                await loadCountries();
+                currentCountry = await detectCountrySilently();
+                if (!normalizeCountryCode(currentCountry)) currentCountry = 'CI';
+
+                if (localStorage.getItem('calendarCountryManual') !== '1') {
+                    localStorage.setItem('calendarCountry', currentCountry);
+                }
+
+                updateCountryHeader();
+                await renderYearCalendar(currentYear);
+            } catch (e) {
+                console.error('Calendar initialization failed:', e);
+                currentCountry = 'CI';
+                await renderYearCalendar(currentYear);
+            }
+        }
+
+        initCalendar();
+    </script>
+</body>
+</html>
+       monthCard.appendChild(monthTitle);
+
+                /* حساب وعرض الشهر الهجري المقابل لهذا الشهر */
+                const startMonthObj = new Date(year, month, 1);
+                const endMonthObj = new Date(year, month + 1, 0);
+                const startHijri = getHijriInfo(startMonthObj);
+                const endHijri = getHijriInfo(endMonthObj);
+
+                let hijriText = '';
+                if (startHijri.month && endHijri.month) {
+                    if (startHijri.month === endHijri.month) {
+                        hijriText = `${startHijri.month} ${startHijri.year} هـ`;
+                    } else if (startHijri.year === endHijri.year) {
+                        hijriText = `${startHijri.month} / ${endHijri.month} ${startHijri.year} هـ`;
+                    } else {
+                        hijriText = `${startHijri.month} ${startHijri.year} - ${endHijri.month} ${endHijri.year} هـ`;
+                    }
+                }
+
+                const hijriSubTitle = document.createElement('div');
+                hijriSubTitle.classList.add('hijri-title');
+                hijriSubTitle.innerText = hijriText;
+                monthCard.appendChild(hijriSubTitle);
+
+                const seasonOrnament = document.createElement('div');
+                seasonOrnament.className = 'season-ornament';
+                seasonOrnament.innerHTML = getSeasonDecoration(month);
+                monthCard.appendChild(seasonOrnament);
+
+                const daysHeader = document.createElement('div');
+                daysHeader.classList.add('days-of-week');
+                daysOfWeek.forEach(day => {
+                    const div = document.createElement('div');
+                    div.innerText = day;
+                    daysHeader.appendChild(div);
+                });
+                monthCard.appendChild(daysHeader);
+
+                const daysGrid = document.createElement('div');
+                daysGrid.classList.add('days-grid');
+
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                for (let j = 0; j < firstDayOfMonth; j++) {
+                    const empty = document.createElement('div');
+                    empty.classList.add('day-cell', 'empty');
+                    daysGrid.appendChild(empty);
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.classList.add('day-cell');
+
+                    const dateObj = new Date(year, month, day);
+                    const hijriDayNum = hijriDayFormatter.format(dateObj);
+
+                    /* الجزء الخاص برقم اليوم بالأدمية */
+                    const gregSpan = document.createElement('span');
+                    gregSpan.classList.add('greg-num');
+                    gregSpan.innerText = convertToAdlam(day);
+
+                    /* الجزء الخاص باليوم الهجري */
+                    const hijriSpan = document.createElement('span');
+                    hijriSpan.classList.add('hijri-num');
+                    hijriSpan.innerText = hijriDayNum;
+
+                    dayCell.appendChild(gregSpan);
+                    dayCell.appendChild(hijriSpan);
+
+                    const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                    if (holidays.has(iso)) {
+                        dayCell.classList.add('holiday', 'clickable');
+                        dayCell.title = holidays.get(iso);
+                        dayCell.setAttribute('aria-label', `${day}: ${holidays.get(iso)}`);
+                        dayCell.addEventListener('click', () => showHolidayEvent(holidays.get(iso), iso));
+                    }
+                    if (day === todayReal.getDate() && month === todayReal.getMonth() && year === todayReal.getFullYear()) {
+                        dayCell.classList.add('today');
+                    }
+                    daysGrid.appendChild(dayCell);
+                }
+                monthCard.appendChild(daysGrid);
+                grid.appendChild(monthCard);
+            }
+            populateYearDropdown();
+        }
+
+        const yearDropdown = document.getElementById('yearDropdown');
+        const yearSelectorBtn = document.getElementById('yearSelectorBtn');
+
+        yearDropdown.addEventListener('click', (e) => e.stopPropagation());
+
+        function populateYearDropdown() {
+            yearDropdown.innerHTML = '';
+            for (let y = 1900; y <= 2100; y++) {
+                const option = document.createElement('div');
+                option.classList.add('year-option');
+                if (y === currentYear) option.classList.add('selected');
+                option.innerText = convertToAdlam(y);
+                
+                option.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    currentYear = y;
+                    yearDropdown.classList.remove('show');
+                    await renderYearCalendar(currentYear); 
+                });
+                yearDropdown.appendChild(option);
+            }
+        }
+
+        document.getElementById('holidayModalClose').addEventListener('click', closeHolidayEvent);
+        document.getElementById('holidayModal').addEventListener('click', (e) => {
+            if (e.target.id === 'holidayModal') closeHolidayEvent();
+        });
+
+        yearSelectorBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeCountryDropdown();
+            const opening = !yearDropdown.classList.contains('show');
+            yearDropdown.classList.toggle('show', opening);
+            if (opening) {
+                requestAnimationFrame(() => {
+                    const selectedOpt = yearDropdown.querySelector('.selected');
+                    if (selectedOpt) {
+                        yearDropdown.scrollTop =
+                            Math.max(0, selectedOpt.offsetTop - (yearDropdown.clientHeight / 2));
+                    }
+                });
+            }
+        });
+
+        document.getElementById('prevYear').addEventListener('click', () => {
+            currentYear--;
+            renderYearCalendar(currentYear);
+        });
+
+        document.getElementById('nextYear').addEventListener('click', () => {
+            currentYear++;
+            renderYearCalendar(currentYear);
+        });
+
+        document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+        async function initCalendar() {
+            try {
+                await loadCountries();
+                currentCountry = await detectCountrySilently();
+                if (!normalizeCountryCode(currentCountry)) currentCountry = 'CI';
+
+                if (localStorage.getItem('calendarCountryManual') !== '1') {
+                    localStorage.setItem('calendarCountry', currentCountry);
+                }
+
+                updateCountryHeader();
+                await renderYearCalendar(currentYear);
+            } catch (e) {
+                console.error('Calendar initialization failed:', e);
+                currentCountry = 'CI';
+                await renderYearCalendar(currentYear);
+            }
         }
 
         initCalendar();
