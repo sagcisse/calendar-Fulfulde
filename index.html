@@ -69,6 +69,51 @@
             z-index: 100;
         }
 
+        /* زخارف ذكية لرأس الصفحة */
+        .year-header::before, .year-header::after {
+            content: '✦';
+            position: absolute;
+            color: rgba(255,255,255,.48);
+            font-size: 28px;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .year-header::before { top: 8px; right: 18px; transform: rotate(18deg); }
+        .year-header::after { bottom: 8px; left: 18px; transform: rotate(-18deg); }
+        .header-ornament-line {
+            position:absolute; left:8%; right:8%; top:50%; height:1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+            opacity:.55; pointer-events:none; z-index:1;
+        }
+        .header-medallion {
+            width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+            background: radial-gradient(circle at 35% 30%, #fff, #f7d774 35%, #b77a00 72%, #6b4200);
+            border:2px solid rgba(255,255,255,.8); box-shadow:0 4px 14px rgba(0,0,0,.25), inset 0 0 0 3px rgba(255,255,255,.25);
+            color:#fff8dc; font-size:25px; flex:0 0 auto;
+        }
+        .date-mode-box {
+            display:flex; align-items:center; gap:6px; padding:5px; border-radius:14px;
+            background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.24);
+            backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+        }
+        .date-mode-title { font-size:.72rem; font-weight:800; color:rgba(255,255,255,.9); padding:0 5px; white-space:nowrap; }
+        .date-mode-btn {
+            border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.1); color:#fff;
+            border-radius:9px; padding:5px 9px; font-family:inherit; font-weight:800; font-size:.72rem; cursor:pointer;
+            transition:.2s ease;
+        }
+        .date-mode-btn:hover { background:rgba(255,255,255,.22); }
+        .date-mode-btn.active { background:#fff; color:var(--secondary-color); box-shadow:0 3px 9px rgba(0,0,0,.16); }
+        .year-badge {
+            background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(247,250,255,.94));
+            color:var(--secondary-color); border:2px solid rgba(255,255,255,.85);
+            padding:5px 12px; border-radius:18px; box-shadow:0 5px 15px rgba(0,0,0,.16), inset 0 0 0 1px rgba(67,97,238,.12);
+            display:flex; align-items:center; gap:9px;
+        }
+        #yearText { font-size:2.15rem; font-weight:900; line-height:1; letter-spacing:1px; }
+        .country-flag { width:42px; height:42px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center;
+            background:#fff; border:2px solid #d7b24c; box-shadow:0 3px 9px rgba(0,0,0,.18); font-size:1.55rem; }
+
         .header-shine-overlay {
             position: absolute;
             inset: 0;
@@ -134,8 +179,9 @@
             width: 100%;
             position: relative;
             z-index: 2;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 12px;
+            flex-wrap: nowrap;
+            min-width: 0;
         }
 
         .header-controls-start, .header-controls-end { 
@@ -164,7 +210,7 @@
             gap: 6px;
             margin: 0;
         }
-        .year-title::after { content: '▼'; font-size: 0.7rem; opacity: 0.85; margin-top: 2px; color: white;}
+        .year-title::after { content: '⌄'; font-size: 0.9rem; opacity: 0.85; margin-top: 2px; color: white; flex: 0 0 auto;}
 
         .year-dropdown {
             position: absolute;
@@ -333,9 +379,10 @@
 
         #yearText { 
             display: inline-flex; align-items: center; justify-content: center; 
-            font-size: 1.4rem; line-height: 1; font-weight: 800; 
+            font-size: 1.8rem; line-height: 1; font-weight: 900; 
             color: var(--primary-color);
-            white-space: nowrap; 
+            white-space: nowrap;
+            letter-spacing: 0.5px;
         }
         
         .year-divider { 
@@ -345,12 +392,13 @@
         }
         
         .country-flag { 
-            width: 30px; height: 30px; flex: 0 0 30px; display: flex; align-items: center; 
-            justify-content: center; border-radius: 8px; 
-            background: #f4f7fb; 
-            border: 1.5px solid var(--primary-color);
+            width: 38px; height: 38px; flex: 0 0 38px; display: flex; align-items: center; 
+            justify-content: center; border-radius: 50%; 
+            background: linear-gradient(145deg,#ffffff,#edf2ff); 
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 3px 10px rgba(0,0,0,.12), 0 0 0 3px rgba(255,255,255,.35);
             font-family: "Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif; 
-            font-size: 1.2rem; line-height: 1; 
+            font-size: 1.45rem; line-height: 1; 
         }
 
         .holiday { background: #ffe0e0 !important; color: #b42318 !important; border: 1px solid #ef8f8f; font-weight: 800 !important; position: relative; }
@@ -463,119 +511,364 @@
         }
 
         @media (max-width: 768px) {
-            .glassy-adlam-title { justify-content: center; text-align: center; }
-            .header-controls-row {
-                flex-direction: column;
-                justify-content: center;
-                gap: 10px;
-            }
-            .header-controls-start, .header-controls-end {
-                width: 100%;
-                justify-content: center;
-            }
-            .country-menu {
-                right: 50%;
-                transform: translateX(50%);
-            }
+            .year-header { padding: 10px 10px 12px; gap: 8px; }
+            .glassy-adlam-title { min-height: 52px; padding: 5px 9px; }
+            .header-medallion { width: 54px; height: 54px; font-size: 26px; }
+            .header-controls-row { flex-wrap: wrap; justify-content: center; row-gap: 6px; }
+            .year-badge { margin-inline: auto; }
         }
+
 
         @media (max-width: 576px) { 
             body { padding: 8px 4px; }
             .months-grid { grid-template-columns: 1fr; gap: 10px; } 
             .print-btn { display: none !important; } 
             .year-badge { height: 38px; padding: 2px 8px; }
-            #yearText { font-size: 1.25rem; }
-            .country-flag { width: 26px; height: 26px; font-size: 1.1rem; }
+            #yearText { font-size: 1.7rem; }
+            .country-flag { width: 34px; height: 34px; font-size: 1.25rem; }
+            .date-mode-box { flex-wrap: wrap; justify-content:center; }
+            .date-mode-title { display:none; }
+            .date-mode-btn { padding:4px 7px; font-size:.66rem; }
             .day-cell .day-adlam { font-size: 0.95rem; } 
             .day-cell .day-hijri { font-size: 0.55rem; } 
         }
 
-        /* ===== إعدادات الطباعة الدقيقة (صفحة واحدة A4 مضغوطة بالكامل) ===== */
+        /* ===== تحسينات الرأس والزخرفة القمرية ===== */
+        .year-header { isolation: isolate; }
+        .glassy-adlam-title { min-height: 58px; }
+        .header-medallion {
+            width: 68px; height: 68px; font-size: 32px;
+            margin-inline-start: 2px;
+            position: relative; z-index: 3;
+            border-width: 2.5px;
+            box-shadow: 0 6px 18px rgba(0,0,0,.28), inset 0 0 0 4px rgba(255,255,255,.24), 0 0 22px rgba(255,224,130,.22);
+        }
+        .header-medallion::after {
+            content: '☾';
+            position: absolute;
+            inset: auto -8px -9px auto;
+            font-size: 22px;
+            color: #fff7cf;
+            text-shadow: 0 2px 8px rgba(0,0,0,.25);
+            opacity: .9;
+        }
+        .header-controls-row { min-height: 64px; }
+        .year-selector-wrapper { flex: 0 0 auto; }
+        .year-badge { position: relative; z-index: 4; }
+        .year-title { position: relative; z-index: 4; }
+        .month-header-wrapper::after {
+            content: '☾';
+            position: absolute;
+            inset-inline-end: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 26px;
+            line-height: 1;
+            color: var(--primary-color);
+            opacity: .18;
+            pointer-events: none;
+        }
+        .month-title, .hijri-month-badge { position: relative; z-index: 2; }
+        .hijri-month-badge {
+            font-family: 'ADLaM Display', sans-serif !important;
+            direction: rtl;
+        }
+        .day-cell .day-hijri { font-family: 'ADLaM Display', sans-serif !important; }
+
+        /* ===== طباعة A4 احترافية: 12 شهراً في صفحة واحدة ===== */
         @media print {
-            @page { 
-                size: A4 portrait; 
-                margin: 3mm; 
+            @page {
+                size: A4 portrait;
+                margin: 4mm;
             }
-            html, body { 
-                background: #fff !important; 
-                margin: 0 !important; 
-                padding: 0 !important; 
-                width: 100% !important; 
-                height: 100% !important; 
-                overflow: hidden !important; 
+
+            html, body {
+                width: 100% !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                background: #fff !important;
             }
-            body { display: block !important; }
-            .main-container { 
-                background: #fff !important; 
-                width: 100% !important; 
-                height: 100% !important; 
-                max-height: 285mm !important;
-                margin: 0 !important; 
-                padding: 0 !important; 
-                display: flex !important; 
-                flex-direction: column !important; 
-                justify-content: space-between !important;
-                overflow: hidden !important; 
-                box-sizing: border-box !important;
+
+            body {
+                display: block !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
-            .year-header { 
-                flex: 0 0 auto !important; 
-                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; 
-                padding: 1.5mm 2mm !important; 
-                margin-bottom: 1.5mm !important; 
-                gap: 1mm !important;
-                border-radius: 6px !important;
-            }
-            .glassy-adlam-title { 
-                background: rgba(255, 255, 255, 0.2) !important; 
-                padding: 0.5mm 2mm !important; 
-                justify-content: center !important;
-            }
-            .adlam-shiny-text { 
-                color: #ffffff !important; 
-                -webkit-text-fill-color: #ffffff !important; 
-                font-size: 2.8mm !important; 
-                text-shadow: none !important;
-            }
-            .header-controls-row { display: flex !important; justify-content: center !important; }
-            .year-badge { background: #fff !important; padding: 0.2mm 1.5mm !important; height: 4.5mm !important; border-radius: 6px !important;}
-            #yearText { color: var(--primary-color) !important; font-size: 3.5mm !important; }
-            .country-flag { width: 3.8mm !important; height: 3.8mm !important; font-size: 2.6mm !important; border-radius: 4px !important; }
-            .btn-circle, .custom-country-dropdown, .print-btn, .holiday-legend, .holiday-modal, .header-shine-overlay, script { display: none !important; }
-            
-            .months-grid { 
-                flex: 1 1 auto !important; 
-                display: grid !important; 
-                grid-template-columns: repeat(3, 1fr) !important; 
-                grid-template-rows: repeat(4, 1fr) !important; 
-                gap: 1mm !important; 
-                height: auto !important;
-            }
-            .month-card { 
-                padding: 0.8mm !important; 
-                border-width: 0.3mm !important; 
-                border-radius: 6px !important;
+
+            .main-container {
+                width: 100% !important;
+                height: 289mm !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
                 display: flex !important;
                 flex-direction: column !important;
-                justify-content: space-between !important;
-                box-shadow: none !important;
+            }
+
+            /* رأس الصفحة: أصغر ارتفاعاً حتى لا يدفع آخر 3 أشهر إلى الصفحة الثانية */
+            .year-header {
+                flex: 0 0 29mm !important;
+                height: 29mm !important;
+                min-height: 29mm !important;
+                margin: 0 0 2mm 0 !important;
+                padding: 2mm 3mm !important;
+                border-radius: 4mm !important;
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 58%, var(--year-accent) 100%) !important;
+                box-shadow: 0 1.5mm 4mm rgba(0,0,0,.12) !important;
+                gap: 1.5mm !important;
+                overflow: hidden !important;
+            }
+
+            .header-shine-overlay {
+                display: block !important;
+                opacity: .35 !important;
+            }
+
+            .glassy-adlam-title {
+                flex: 0 0 10mm !important;
+                min-height: 10mm !important;
+                padding: .8mm 3mm !important;
+                border-radius: 2.5mm !important;
+                justify-content: center !important;
+                background: rgba(255,255,255,.16) !important;
+                border: .25mm solid rgba(255,255,255,.4) !important;
+                box-shadow: inset 0 0 .8mm rgba(255,255,255,.18) !important;
+            }
+
+            .adlam-shiny-text {
+                color: #fff !important;
+                -webkit-text-fill-color: #fff !important;
+                background: none !important;
+                font-size: 3.15mm !important;
+                line-height: 1 !important;
+                font-weight: 800 !important;
+                text-shadow: 0 .4mm .8mm rgba(0,0,0,.25) !important;
+            }
+
+            .header-controls-row {
+                flex: 1 1 auto !important;
+                min-height: 0 !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 5mm !important;
+                flex-wrap: nowrap !important;
+            }
+
+            /* إخفاء أزرار التحكم فقط؛ نبقي السنة والعلم */
+            .header-controls-start,
+            .header-controls-end,
+            .year-selector-wrapper {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .header-controls-start,
+            .header-controls-end {
+                display: none !important;
+            }
+
+            .year-selector-wrapper {
+                position: static !important;
+                padding: 0 !important;
+            }
+
+            .year-title {
+                font-size: 1rem !important;
+                margin: 0 !important;
+            }
+
+            .year-title::after {
+                display: none !important;
+            }
+
+            /* السنة كبيرة وواضحة */
+            .header-medallion {
+                width: 10mm !important;
+                height: 10mm !important;
+                font-size: 5.2mm !important;
+                margin: 0 !important;
+                flex: 0 0 10mm !important;
+            }
+
+            .year-badge {
+                height: 12mm !important;
+                min-width: 48mm !important;
+                padding: 1mm 3mm !important;
+                gap: 2mm !important;
+                border-radius: 3.5mm !important;
+                background: linear-gradient(180deg,#fff,#f5f7ff) !important;
+                border: .45mm solid rgba(255,255,255,.95) !important;
+                box-shadow: 0 1mm 3mm rgba(0,0,0,.18), inset 0 0 .8mm rgba(67,97,238,.15) !important;
+            }
+
+            #yearText {
+                font-size: 8mm !important;
+                line-height: 1 !important;
+                font-weight: 900 !important;
+                letter-spacing: .3mm !important;
+                color: var(--primary-color) !important;
+            }
+
+            .year-divider {
+                width: .45mm !important;
+                height: 8mm !important;
+                margin: 0 1mm !important;
+                background: var(--primary-color) !important;
+                opacity: .25 !important;
+            }
+
+            /* علم الدولة بتصميم واضح وكبير */
+            .country-flag {
+                width: 10mm !important;
+                height: 10mm !important;
+                flex: 0 0 10mm !important;
+                border-radius: 50% !important;
+                font-size: 6.2mm !important;
+                line-height: 1 !important;
+                background: #fff !important;
+                border: .55mm solid var(--primary-color) !important;
+                box-shadow: 0 .7mm 2mm rgba(0,0,0,.18), 0 0 0 .8mm rgba(255,255,255,.45) !important;
+            }
+
+            .custom-country-dropdown,
+            .print-btn,
+            .btn-circle,
+            .holiday-legend,
+            .holiday-modal,
+            .country-menu,
+            .year-dropdown {
+                display: none !important;
+            }
+
+            /* شبكة 12 شهراً ثابتة: 3 أعمدة × 4 صفوف */
+            .months-grid {
+                flex: 0 0 256mm !important;
+                width: 100% !important;
+                height: 256mm !important;
+                display: grid !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                grid-template-rows: repeat(4, 62.2mm) !important;
+                gap: 1.7mm !important;
+                overflow: hidden !important;
+            }
+
+            .month-card {
+                width: 100% !important;
+                height: 62.2mm !important;
+                min-height: 62.2mm !important;
+                max-height: 62.2mm !important;
+                padding: 1.3mm !important;
+                border-radius: 2.5mm !important;
+                border-top-width: .6mm !important;
+                box-shadow: 0 .6mm 1.5mm rgba(0,0,0,.08) !important;
+                overflow: hidden !important;
                 break-inside: avoid !important;
+                page-break-inside: avoid !important;
             }
-            .season-ornament { width: 22px !important; height: 16px !important; }
-            .month-header-wrapper { margin-bottom: 0.2mm !important; padding: 0.2mm !important; border-radius: 4px !important; }
-            .month-title { font-size: 2.3mm !important; line-height: 1.1 !important; }
-            .hijri-month-badge { font-size: 1.4mm !important; padding: 0 2px !important; }
-            .days-of-week { font-size: 1.4mm !important; margin-bottom: 0.2mm !important; padding: 0.1mm !important; gap: 1px !important; }
-            .day-name-chip { padding: 0 !important; font-size: 1.4mm !important; }
-            .days-grid { gap: 1px !important; }
-            .day-cell { 
-                aspect-ratio: auto !important; 
-                height: 4.6mm !important; 
-                padding: 0 !important; 
-                border-radius: 2px !important; 
+
+            .season-ornament {
+                width: 18mm !important;
+                height: 11mm !important;
+                top: 1mm !important;
+                inset-inline-start: 1mm !important;
+                opacity: .5 !important;
             }
-            .day-cell .day-adlam { font-size: 1.9mm !important; line-height: 1 !important; }
-            .day-cell .day-hijri { font-size: 1.1mm !important; line-height: 1 !important; margin-top: 0 !important; }
+
+            .month-header-wrapper {
+                flex: 0 0 8.5mm !important;
+                position: relative !important;
+                height: 8.5mm !important;
+                min-height: 8.5mm !important;
+                margin-bottom: 1mm !important;
+                padding: .8mm !important;
+                border-radius: 1.8mm !important;
+            }
+
+
+            .month-header-wrapper::after {
+                content: '☾' !important;
+                font-size: 5mm !important;
+                opacity: .18 !important;
+                inset-inline-end: 1mm !important;
+            }
+
+            .month-title {
+                font-size: 3.8mm !important;
+                line-height: 1.1 !important;
+                font-weight: 900 !important;
+            }
+
+            .hijri-month-badge {
+                font-size: 1.75mm !important;
+                line-height: 1 !important;
+                font-family: 'ADLaM Display', sans-serif !important;
+                padding: .2mm 1mm !important;
+                margin-top: .5mm !important;
+            }
+
+            .days-of-week {
+                flex: 0 0 5mm !important;
+                height: 5mm !important;
+                margin-bottom: .7mm !important;
+                padding: .4mm !important;
+                gap: .6mm !important;
+                border-radius: 1.3mm !important;
+            }
+
+            .day-name-chip {
+                font-size: 2.55mm !important;
+                line-height: 1 !important;
+                padding: .2mm 0 !important;
+                font-weight: 900 !important;
+            }
+
+            .days-grid {
+                display: grid !important;
+                grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+                grid-auto-rows: 5.9mm !important;
+                gap: .65mm !important;
+                flex: 1 1 auto !important;
+                min-height: 0 !important;
+                overflow: hidden !important;
+            }
+
+            .day-cell {
+                width: 100% !important;
+                height: 5.9mm !important;
+                min-height: 5.9mm !important;
+                aspect-ratio: auto !important;
+                padding: .15mm !important;
+                border-radius: 1.1mm !important;
+            }
+
+            .day-cell .day-adlam {
+                font-size: 3.05mm !important;
+                line-height: 1 !important;
+                font-weight: 900 !important;
+            }
+
+            .day-cell .day-hijri {
+                font-size: 1.8mm !important;
+                line-height: 1 !important;
+                margin-top: .35mm !important;
+                font-weight: 800 !important;
+            }
+
+            .holiday {
+                border-width: .25mm !important;
+            }
+
+            .holiday::after {
+                width: 1.2mm !important;
+                height: 1.2mm !important;
+                top: .5mm !important;
+                right: .5mm !important;
+            }
         }
     </style>
 </head>
@@ -584,8 +877,10 @@
     <div class="main-container">
         <header class="year-header">
             <div class="header-shine-overlay"></div>
+            <div class="header-ornament-line"></div>
             
             <div class="glassy-adlam-title">
+                <div class="header-medallion" aria-hidden="true">☾✦</div>
                 <div class="adlam-shiny-text">𞤏𞤋𞤐𞤁𞤉𞤐 𞤔𞤀𞤐𞤘𞤉𞤐 𞤀𞤁𞤂𞤢𞤃</div>
                 <div class="adlam-shiny-text">𞤔𞤀𞤐𞤘𞤓 𞤁𞤊</div>
             </div>
@@ -609,6 +904,12 @@
                 </div>
                 
                 <div class="header-controls-end">
+                    <div class="date-mode-box" aria-label="اختيار نوع التاريخ">
+                        <span class="date-mode-title">التاريخ</span>
+                        <button type="button" class="date-mode-btn active" data-date-mode="gregorian">الميلادي</button>
+                        <button type="button" class="date-mode-btn" data-date-mode="hijri">الهجري</button>
+                        <button type="button" class="date-mode-btn" data-date-mode="both">كلاهما</button>
+                    </div>
                     <div class="custom-country-dropdown" id="countryDropdownContainer">
                         <button class="country-btn" id="countryBtn" title="اختيار الدولة">
                             <span id="headerCountryBadge" class="fs-6">🌍</span>
@@ -661,14 +962,12 @@
 
     <script>
         const adlamDigits = ['𞥐', '𞥑', '𞥒', '𞥓', '𞥔', '𞥕', '𞥖', '𞥗', '𞥘', '𞥙'];
-        const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-
         function convertToAdlam(num) {
-            return num.toString().split('').map(digit => adlamDigits[parseInt(digit)] || digit).join('');
+            return num.toString().split('').map(digit => adlamDigits[parseInt(digit)] ?? digit).join('');
         }
 
-        function convertToArabicDigits(num) {
-            return num.toString().replace(/\d/g, d => arabicDigits[d]);
+        function adlamText(text) {
+            return String(text).replace(/[0-9]/g, d => adlamDigits[d]);
         }
 
         const monthNames = [
@@ -714,44 +1013,84 @@
 
         const fallbackCountries = ['CI','SN','ML','BF','GN','MR','NG','GH','GM','NE','TD','CM','DZ','MA','TN','EG','SA','AE','QA','TR','FR','GB','DE','IT','ES','US','CA'];
 
+        // أسماء الشهور الهجرية الرسمية بفلانية (Fulah) وبخط Adlam، وفق CLDR.
+        // لا نعتمد على اسم الشهر الذي يرجعه متصفح الهاتف، لأن بعض المتصفحات
+        // قد تعيد الاسم بالعربية أو بالإنجليزية رغم اختيار ff-Adlm.
+        const hijriMonthNamesAdlam = [
+            "𞤔𞤮𞤥𞤦𞤫𞤲𞤼𞤫",
+            "𞤅𞤢𞤦𞥆𞤮𞤪𞤣𞤵-𞤆𞤢𞤪𞤢𞤲",
+            "𞤆𞤢𞤪𞤢𞤲",
+            "𞤃𞤭𞤥𞤨𞤢𞤪𞤢𞤲",
+            "𞤄𞤢𞤨𞥆𞤢𞤪𞤢𞤲",
+            "𞤅𞤢𞤦𞥆𞤮𞤪𞤣𞤵-𞤈𞤢𞥄𞤶𞤭𞤦𞤭",
+            "𞤈𞤢𞥄𞤶𞤭𞤦𞤭",
+            "𞤅𞤢𞤦𞥆𞤮𞤪𞤣𞤵-𞤅𞤵𞥅𞤥𞤢𞤴𞤫𞥅",
+            "𞤅𞤵𞥅𞤥𞤢𞤴𞤫𞥅",
+            "𞤔𞤵𞥅𞤤𞤣𞤢𞥄𞤲𞥋𞤣𞤵",
+            "𞤅𞤢𞤦𞥆𞤮𞤪𞤣𞤵-𞤁𞤮𞤲𞤳𞤭𞤲",
+            "𞤁𞤵𞤲𞤳𞤭𞤲"
+        ];
+        const hijriEraAdlam = "𞤇𞤊";
+
         function getHijriDetails(date) {
             try {
-                const formatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
+                // نأخذ اليوم/الشهر/السنة كأرقام من تقويم أم القرى، ثم نرسمها
+                // نحن بأنظمة Adlam، بدلاً من الاعتماد على ترجمة المتصفح.
+                const formatter = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura', {
+                    day: 'numeric', month: 'numeric', year: 'numeric'
                 });
                 const parts = formatter.formatToParts(date);
-                let day = '', month = '', year = '';
+                let day = '', monthNumber = '', year = '';
                 for (const part of parts) {
                     if (part.type === 'day') day = part.value;
-                    if (part.type === 'month') month = part.value;
+                    if (part.type === 'month') monthNumber = part.value;
                     if (part.type === 'year') year = part.value;
                 }
-                return { day, month, year };
+                const monthIndex = Math.max(1, Math.min(12, parseInt(monthNumber, 10))) - 1;
+                return {
+                    day: convertToAdlam(day),
+                    month: hijriMonthNamesAdlam[monthIndex],
+                    monthIndex: monthIndex + 1,
+                    year: convertToAdlam(year),
+                    era: hijriEraAdlam
+                };
             } catch(e) {
-                return { day: date.getDate().toString(), month: '', year: '' };
+                // احتياط للمتصفحات التي لا تدعم أم القرى.
+                const formatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', {
+                    day: 'numeric', month: 'numeric', year: 'numeric'
+                });
+                const parts = formatter.formatToParts(date);
+                let day = '', monthNumber = '', year = '';
+                for (const part of parts) {
+                    if (part.type === 'day') day = part.value;
+                    if (part.type === 'month') monthNumber = part.value;
+                    if (part.type === 'year') year = part.value;
+                }
+                const monthIndex = Math.max(1, Math.min(12, parseInt(monthNumber, 10))) - 1;
+                return {
+                    day: convertToAdlam(day),
+                    month: hijriMonthNamesAdlam[monthIndex],
+                    monthIndex: monthIndex + 1,
+                    year: convertToAdlam(year),
+                    era: hijriEraAdlam
+                };
             }
         }
 
         function getHijriMonthRange(year, month) {
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
-
             const h1 = getHijriDetails(firstDay);
             const h2 = getHijriDetails(lastDay);
-
             if (!h1.month || !h2.month) return '';
-
+            const era = h1.era || '𞤇𞤊';
             if (h1.month === h2.month) {
-                return `${h1.month} ${convertToArabicDigits(h1.year)} هـ`;
-            } else {
-                if (h1.year === h2.year) {
-                    return `${h1.month} / ${h2.month} ${convertToArabicDigits(h1.year)} هـ`;
-                } else {
-                    return `${h1.month} ${convertToArabicDigits(h1.year)} - ${h2.month} ${convertToArabicDigits(h2.year)} هـ`;
-                }
+                return `${h1.month} ${h1.year} ${era}`;
             }
+            if (h1.year === h2.year) {
+                return `${h1.month} / ${h2.month} ${h1.year} ${era}`;
+            }
+            return `${h1.month} ${h1.year} - ${h2.month} ${h2.year} ${era}`;
         }
 
         function normalizeCountryCode(code) {
@@ -926,13 +1265,59 @@
         function showHolidayEvent(name, iso) {
             const modal = document.getElementById('holidayModal');
             document.getElementById('holidayModalName').textContent = name;
-            document.getElementById('holidayModalDate').textContent = iso;
+            document.getElementById('holidayModalDate').textContent = adlamText(iso);
             modal.classList.add('show');
         }
 
         function closeHolidayEvent() {
             document.getElementById('holidayModal').classList.remove('show');
         }
+
+        let dateDisplayMode = localStorage.getItem('calendarDateDisplayMode') || 'gregorian';
+
+        function updateDateModeButtons() {
+            document.querySelectorAll('.date-mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.dateMode === dateDisplayMode);
+            });
+        }
+
+        function updateDateCell(cell, adlamSpan, hijriSpan, gregorianDay, hijriDay) {
+            if (dateDisplayMode === 'hijri') {
+                adlamSpan.innerText = adlamText(hijriDay);
+                hijriSpan.innerText = '';
+            } else if (dateDisplayMode === 'both') {
+                adlamSpan.innerText = convertToAdlam(gregorianDay);
+                hijriSpan.innerText = adlamText(hijriDay);
+            } else {
+                adlamSpan.innerText = convertToAdlam(gregorianDay);
+                hijriSpan.innerText = '';
+            }
+            cell.classList.toggle('show-hijri', dateDisplayMode === 'both');
+            cell.classList.toggle('hijri-primary', dateDisplayMode === 'hijri');
+        }
+
+        function applyDateDisplayMode() {
+            document.querySelectorAll('.month-card').forEach(card => {
+                card.querySelectorAll('.day-cell:not(.empty)').forEach(cell => {
+                    const greg = cell.dataset.gregorianDay;
+                    const hijri = cell.dataset.hijriDay;
+                    if (greg && hijri) {
+                        updateDateCell(cell, cell.querySelector('.day-adlam'), cell.querySelector('.day-hijri'), greg, hijri);
+                    }
+                });
+                const badge = card.querySelector('.hijri-month-badge');
+                if (badge) badge.style.display = dateDisplayMode === 'gregorian' ? 'none' : 'inline-block';
+            });
+            updateDateModeButtons();
+        }
+
+        document.querySelectorAll('.date-mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                dateDisplayMode = btn.dataset.dateMode;
+                localStorage.setItem('calendarDateDisplayMode', dateDisplayMode);
+                applyDateDisplayMode();
+            });
+        });
 
         async function renderYearCalendar(year) {
             applyYearTheme(year);
@@ -1006,10 +1391,12 @@
 
                     const hijriSpan = document.createElement('span');
                     hijriSpan.classList.add('day-hijri');
-                    hijriSpan.innerText = convertToArabicDigits(hijriInfo.day);
+                    dayCell.dataset.gregorianDay = day;
+                    dayCell.dataset.hijriDay = hijriInfo.day;
 
                     dayCell.appendChild(adlamSpan);
                     dayCell.appendChild(hijriSpan);
+                    updateDateCell(dayCell, adlamSpan, hijriSpan, day, hijriInfo.day);
 
                     const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
                     if (holidays.has(iso)) {
@@ -1026,6 +1413,7 @@
                 grid.appendChild(monthCard);
             }
             populateYearDropdown();
+            applyDateDisplayMode();
         }
 
         const yearDropdown = document.getElementById('yearDropdown');
