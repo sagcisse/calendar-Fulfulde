@@ -490,9 +490,12 @@
             .day-cell .day-hijri { font-size: 0.55rem; } 
         }
 
-        /* ===== إعدادات الطباعة الدقيقة (صفحة واحدة A4) ===== */
+        /* ===== إعدادات الطباعة الدقيقة (صفحة واحدة A4 مضغوطة بالكامل) ===== */
         @media print {
-            @page { size: A4 portrait; margin: 4mm; }
+            @page { 
+                size: A4 portrait; 
+                margin: 3mm; 
+            }
             html, body { 
                 background: #fff !important; 
                 margin: 0 !important; 
@@ -505,53 +508,74 @@
             .main-container { 
                 background: #fff !important; 
                 width: 100% !important; 
-                height: 100vh !important; 
+                height: 100% !important; 
+                max-height: 285mm !important;
                 margin: 0 !important; 
-                padding: 1mm !important; 
+                padding: 0 !important; 
                 display: flex !important; 
                 flex-direction: column !important; 
+                justify-content: space-between !important;
                 overflow: hidden !important; 
                 box-sizing: border-box !important;
             }
             .year-header { 
                 flex: 0 0 auto !important; 
                 background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important; 
-                padding: 2mm 3mm !important; 
-                margin-bottom: 2mm !important; 
-                gap: 1.5mm !important;
+                padding: 1.5mm 2mm !important; 
+                margin-bottom: 1.5mm !important; 
+                gap: 1mm !important;
+                border-radius: 6px !important;
             }
             .glassy-adlam-title { 
                 background: rgba(255, 255, 255, 0.2) !important; 
-                padding: 1mm 3mm !important; 
+                padding: 0.5mm 2mm !important; 
                 justify-content: center !important;
             }
             .adlam-shiny-text { 
                 color: #ffffff !important; 
                 -webkit-text-fill-color: #ffffff !important; 
-                font-size: 3.2mm !important; 
+                font-size: 2.8mm !important; 
                 text-shadow: none !important;
             }
             .header-controls-row { display: flex !important; justify-content: center !important; }
-            .year-badge { background: #fff !important; padding: 0.5mm 2mm !important; height: 5.5mm !important; }
-            #yearText { color: var(--primary-color) !important; font-size: 4.2mm !important; }
-            .country-flag { width: 4.5mm !important; height: 4.5mm !important; font-size: 3.2mm !important; }
+            .year-badge { background: #fff !important; padding: 0.2mm 1.5mm !important; height: 4.5mm !important; border-radius: 6px !important;}
+            #yearText { color: var(--primary-color) !important; font-size: 3.5mm !important; }
+            .country-flag { width: 3.8mm !important; height: 3.8mm !important; font-size: 2.6mm !important; border-radius: 4px !important; }
             .btn-circle, .custom-country-dropdown, .print-btn, .holiday-legend, .holiday-modal, .header-shine-overlay, script { display: none !important; }
+            
             .months-grid { 
                 flex: 1 1 auto !important; 
                 display: grid !important; 
                 grid-template-columns: repeat(3, 1fr) !important; 
                 grid-template-rows: repeat(4, 1fr) !important; 
-                gap: 1.2mm !important; 
-                height: calc(100vh - 22mm) !important;
+                gap: 1mm !important; 
+                height: auto !important;
             }
-            .month-card { padding: 1mm !important; border-width: 0.3mm !important; }
-            .month-header-wrapper { margin-bottom: 0.3mm !important; padding: 0.3mm !important; }
-            .month-title { font-size: 2.7mm !important; }
-            .hijri-month-badge { font-size: 1.7mm !important; }
-            .days-of-week { font-size: 1.7mm !important; margin-bottom: 0.3mm !important; padding: 0.2mm !important; }
-            .days-grid { gap: 0.2mm !important; }
-            .day-cell .day-adlam { font-size: 2.5mm !important; }
-            .day-cell .day-hijri { font-size: 1.4mm !important; }
+            .month-card { 
+                padding: 0.8mm !important; 
+                border-width: 0.3mm !important; 
+                border-radius: 6px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+                box-shadow: none !important;
+                break-inside: avoid !important;
+            }
+            .season-ornament { width: 22px !important; height: 16px !important; }
+            .month-header-wrapper { margin-bottom: 0.2mm !important; padding: 0.2mm !important; border-radius: 4px !important; }
+            .month-title { font-size: 2.3mm !important; line-height: 1.1 !important; }
+            .hijri-month-badge { font-size: 1.4mm !important; padding: 0 2px !important; }
+            .days-of-week { font-size: 1.4mm !important; margin-bottom: 0.2mm !important; padding: 0.1mm !important; gap: 1px !important; }
+            .day-name-chip { padding: 0 !important; font-size: 1.4mm !important; }
+            .days-grid { gap: 1px !important; }
+            .day-cell { 
+                aspect-ratio: auto !important; 
+                height: 4.6mm !important; 
+                padding: 0 !important; 
+                border-radius: 2px !important; 
+            }
+            .day-cell .day-adlam { font-size: 1.9mm !important; line-height: 1 !important; }
+            .day-cell .day-hijri { font-size: 1.1mm !important; line-height: 1 !important; margin-top: 0 !important; }
         }
     </style>
 </head>
