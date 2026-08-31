@@ -150,7 +150,6 @@
         }
         .year-title::after { content: '▼'; font-size: 0.85rem; opacity: 0.85; margin-top: 4px; text-shadow: none; color: white;}
 
-        /* ===== إصلاح قائمة السنة (التسديل) ===== */
         .year-dropdown {
             position: absolute;
             top: calc(100% + 10px);
@@ -251,7 +250,6 @@
         .country-btn .bi-chevron-down { font-size: 0.8rem; transition: transform 0.3s ease; }
         .country-menu.show ~ .country-btn .bi-chevron-down { transform: rotate(180deg); }
 
-        /* ===== إصلاح قائمة الدول للشاشات العادية ===== */
         .country-menu {
             position: absolute;
             top: 100%;
@@ -326,7 +324,6 @@
         .country-item:hover { background: #f0fdfa; color: var(--primary-color); }
         .country-item.active { background: var(--primary-color); color: #fff; }
 
-        /* ===== إصلاح قائمة الدول للجوال ===== */
         @media (max-width: 600px) {
             .country-btn span.country-name-text { display: none; }
             .country-menu { 
@@ -595,9 +592,10 @@
             return num.toString().split('').map(digit => adlamDigits[parseInt(digit)]).join('');
         }
 
+        // تم تحديث المصفوفة بالأسماء الجديدة
         const monthNames = [
-            "𞤅𞤭𞥅𞤤𞤮", "𞤕𞤮𞤤𞤼𞤫", "𞤃𞤦𞤮𞥅𞤴", "𞤅𞤫𞥅𞤯𞤼𞤮", "𞤁𞤵𞥅𞤶𞤢𞤤", "𞤑𞤮𞤪𞤧𞤫", 
-            "𞤃𞤮𞤪𞤧𞤮", "𞤔𞤵𞤳𞤮", "𞤅𞤭𞥅𞤤𞤼𞤮", "𞤒𞤢𞤪𞤳𞤮𞤥𞤢𞥅", "𞤔𞤮𞤤𞤢𞤤", "𞤄𞤮𞤱𞤼𞤫"
+            "𞤅𞤭𞥅𞤤𞤮", "𞤕𞤮𞤤𞤼𞤮", "𞤐𞤄𞤮𞥅𞤴𞤮", "𞤅𞤫𞤯𞤼𞤮", "𞤁𞤵𞥅𞤶𞤮", "𞤑𞤮𞤪𞤧𞤮", 
+            "𞤃𞤮𞤪𞤧𞤮", "𞤔𞤵𞤳𞤮", "𞤅𞤭𞤤𞤼𞤮", "𞤒𞤢𞤪𞤳𞤮", "𞤔𞤮𞤤𞤮", "𞤄𞤮𞤱𞤼𞤮"
         ];
 
         const daysOfWeek = ["𞤁𞤫", "𞤀𞤢", "𞤃𞤦", "𞤐𞤶", "𞤐𞤢", "𞤃𞤱", "𞤖𞤮"];
@@ -632,7 +630,6 @@
             regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
         }
 
-        // لغة المناسبة تُؤخذ من بيانات الدولة نفسها، وليست من لغة المتصفح.
         const countryLocales = {
             CI:'fr-FR', SN:'fr-FR', ML:'fr-FR', BF:'fr-FR', GN:'fr-FR',
             MR:'ar-MR', NE:'fr-FR', TD:'fr-FR', CM:'fr-FR',
@@ -947,7 +944,10 @@
 
                 const monthTitle = document.createElement('div');
                 monthTitle.classList.add('month-title');
-                monthTitle.innerText = monthNames[month];
+                
+                // إضافة رقم السنة بجانب اسم الشهر بالأرقام الأدمية
+                monthTitle.innerText = `${monthNames[month]} ${convertToAdlam(year)}`;
+                
                 monthCard.appendChild(monthTitle);
 
                 const seasonOrnament = document.createElement('div');
